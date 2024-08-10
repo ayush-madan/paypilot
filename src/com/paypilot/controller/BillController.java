@@ -1,9 +1,11 @@
 package com.paypilot.controller;
 
 import com.paypilot.model.Bill;
+import com.paypilot.model.ReminderSettings;
 import com.paypilot.service.BillService;
-import com.paypilot.repo.BillRepository;  // Assuming BillRepository exists
+import com.paypilot.repo.BillRepository;
 import java.util.Date;
+import java.util.List;
 
 public class BillController {
 
@@ -50,9 +52,10 @@ public class BillController {
         BillService billService = new BillService(billRepository); // Inject repository into service
         BillController billController = new BillController(billService); // Inject service into controller
 
-        // Create sample bills
-        Bill bill1 = new Bill(1, "Electricity", "Utilities", new Date(), 100.0, "Monthly", null, "N/A", false, "Upcoming", 5);
-        Bill bill2 = new Bill(2, "Internet", "Utilities", new Date(), 60.0, "Monthly", null, "N/A", true, "Pending", 2);
+        // Create a sample bill
+        ReminderSettings reminderSettings = new ReminderSettings(1, "Monthly", new Date(), "Pay on time", "Email", null);
+        Bill bill1 = new Bill(1, "Electricity", "Utilities", new Date(), 100.0, "Monthly", null, "N/A", false, "Upcoming", 5, reminderSettings);
+        Bill bill2 = new Bill(2, "Internet", "Utilities", new Date(), 60.0, "Monthly", null, "N/A", true, "Pending", 2, null);
 
         // Add bills
         billController.addBill(bill1);

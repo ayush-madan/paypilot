@@ -15,17 +15,15 @@ public class Bill {
     private boolean isRecurring;
     private String paymentStatus;
     private int overdueDays;
+    private ReminderSettings reminderSettings; // Relationship with ReminderSettings
     
-    
-    //Default constructor
-    public Bill{
-    	
-    }
+    // Default constructor
+    public Bill() {}
 
     // Parameterized constructor
     public Bill(int billId, String billName, String billCategory, Date dueDate, double amount,
                 String reminderFrequency, File attachment, String notes, boolean isRecurring,
-                String paymentStatus, int overdueDays) {
+                String paymentStatus, int overdueDays, ReminderSettings reminderSettings) {
         this.billId = billId;
         this.billName = billName;
         this.billCategory = billCategory;
@@ -37,6 +35,7 @@ public class Bill {
         this.isRecurring = isRecurring;
         this.paymentStatus = paymentStatus;
         this.overdueDays = overdueDays;
+        this.reminderSettings = reminderSettings; // Initialize ReminderSettings
     }
 
     // Getters and Setters
@@ -62,6 +61,8 @@ public class Bill {
     public void setPaymentStatus(String paymentStatus) { this.paymentStatus = paymentStatus; }
     public int getOverdueDays() { return overdueDays; }
     public void setOverdueDays(int overdueDays) { this.overdueDays = overdueDays; }
+    public ReminderSettings getReminderSettings() { return reminderSettings; }
+    public void setReminderSettings(ReminderSettings reminderSettings) { this.reminderSettings = reminderSettings; }
 
     @Override
     public String toString() {
@@ -77,6 +78,7 @@ public class Bill {
                 ", isRecurring=" + isRecurring +
                 ", paymentStatus='" + paymentStatus + '\'' +
                 ", overdueDays=" + overdueDays +
+                ", reminderSettings=" + reminderSettings +
                 '}';
     }
 }
