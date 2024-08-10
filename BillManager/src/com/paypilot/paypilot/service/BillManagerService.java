@@ -10,7 +10,7 @@ import com.paypilot.billmngr.repo.BillManagerRepo;
 public class BillManagerService {
 	BillManagerRepo br = new BillManagerRepo();
 	
-	public List<Bill> getBillsOverview(String category, Date fromDate, Date toDate, String status) {
+	public List<Bill> getBillsOverviewService(String category, Date fromDate, Date toDate, String status) {
         // Implementation goes here
 		
 //		Type of Bills Debt, Payment, HouseRent, Groceries, InternetCharges, RetirementCharges, CellPhoneCharges
@@ -45,14 +45,14 @@ public class BillManagerService {
     }
 
     // Method to add a new bill
-    public void addNewBill(String name, String Category, Date dueDate, double amount, String reminderFrequency, String attachement, String note,boolean isRecurring, String paymentStatus, int overDueDays) {
+    public void addNewBillService(String name, String Category, Date dueDate, double amount, String reminderFrequency, String attachement, String note,boolean isRecurring, String paymentStatus, int overDueDays) {
         br.addNewBill(br.createNewBill(name, Category, dueDate, amount, 
         			reminderFrequency, attachement, note, isRecurring, 
         			paymentStatus, overDueDays));
         }
 
     // Method to get overdue bills
-    public List<Bill> getOverdueBills(String Category, String name, Date dateTo, Date dateFrom) {
+    public List<Bill> getOverdueBillsService(String Category, String name, Date dateTo, Date dateFrom) {
         // Implementation goes here
     	List<Bill> allBills = br.getOverdueBills();
     	List<Bill> temp1;
@@ -102,7 +102,7 @@ public class BillManagerService {
     }
 
     // Method to get upcoming bills
-    public List<Bill> getUpcomingBills(String Category, String name, Date dateTo, Date dateFrom) {
+    public List<Bill> getUpcomingBillsService(String Category, String name, Date dateTo, Date dateFrom) {
         // Implementation goes here
     	List<Bill> allBills = br.getUpcomingBills();
     	List<Bill> temp1;
@@ -152,7 +152,7 @@ public class BillManagerService {
     }
 
     // Method to snooze a bill
-    public void snoozeBill(String Category, String name, Date SnoozeDate) {
+    public void snoozeBillService(String Category, String name, Date SnoozeDate) {
         // Implementation goes here
     	List<Bill> allBills = br.getUpcomingBills();
     	List<Bill> temp1;
@@ -188,7 +188,7 @@ public class BillManagerService {
     }
 
     // Method to mark a bill as paid
-    public void markBillAsPaid(String Category, String name) {
+    public void markBillAsPaidService(String Category, String name) {
     	List<Bill> allBills = br.getUpcomingBills();
     	List<Bill> temp1;
     	List<Bill> temp2;
