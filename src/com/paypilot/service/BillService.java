@@ -15,23 +15,23 @@ public class BillService {
         this.billRepository = billRepository;
     }
 
-    public void addBill(Bill bill) {
+    public void addBillService(Bill bill) {
         billRepository.addBill(bill);
     }
 
-    public void updateBill(Bill bill) {
+    public void updateBillService(Bill bill) {
         billRepository.updateBill(bill);
     }
 
-    public void deleteBill(int billId) {
+    public void deleteBillService(int billId) {
         billRepository.deleteBill(billId);
     }
 
-    public List<Bill> getAllBills() {
+    public List<Bill> getAllBillsService() {
         return billRepository.getAllBills();
     }
 
-    public Bill getBillById(int billId) {
+    public Bill getBillByIdService(int billId) {
         return billRepository.getBillById(billId);
     }
 

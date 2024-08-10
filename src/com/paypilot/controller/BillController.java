@@ -16,29 +16,29 @@ public class BillController {
     }
 
     public void addBill(Bill bill) {
-        billService.addBill(bill);
+        billService.addBillService(bill);
         System.out.println("Bill added successfully.");
     }
 
     public void updateBill(Bill bill) {
-        billService.updateBill(bill);
+        billService.updateBillService(bill);
         System.out.println("Bill updated successfully.");
     }
 
     public void deleteBill(int billId) {
-        billService.deleteBill(billId);
+        billService.deleteBillService(billId);
         System.out.println("Bill deleted successfully.");
     }
 
     public void listAllBills() {
-        List<Bill> bills = billService.getAllBills();
+        List<Bill> bills = billService.getAllBillsService();
         for (Bill bill : bills) {
             System.out.println(bill);
         }
     }
 
     public void getBillDetails(int billId) {
-        Bill bill = billService.getBillById(billId);
+        Bill bill = billService.getBillByIdService(billId);
         if (bill != null) {
             System.out.println(bill);
         } else {
