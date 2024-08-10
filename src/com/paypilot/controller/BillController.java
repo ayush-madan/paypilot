@@ -15,30 +15,31 @@ public class BillController {
         this.billService = billService;
     }
 
-    public void addBill(Bill bill) {
-        billService.addBillService(bill);
+    
+    public void addBillController(Bill bill) {
+        billService.addBillService(bill);  
         System.out.println("Bill added successfully.");
     }
 
-    public void updateBill(Bill bill) {
-        billService.updateBillService(bill);
+    public void updateBillController(Bill bill) {
+        billService.updateBillService(bill);  
         System.out.println("Bill updated successfully.");
     }
 
-    public void deleteBill(int billId) {
-        billService.deleteBillService(billId);
+    public void deleteBillController(int billId) {
+        billService.deleteBillService(billId);  
         System.out.println("Bill deleted successfully.");
     }
 
-    public void listAllBills() {
-        List<Bill> bills = billService.getAllBillsService();
+    public void listAllBillsController() {
+        List<Bill> bills = billService.getAllBillsService();  
         for (Bill bill : bills) {
             System.out.println(bill);
         }
     }
 
-    public void getBillDetails(int billId) {
-        Bill bill = billService.getBillByIdService(billId);
+    public void getBillDetailsController(int billId) {
+        Bill bill = billService.getBillByIdService(billId);  
         if (bill != null) {
             System.out.println(bill);
         } else {
@@ -58,26 +59,26 @@ public class BillController {
         Bill bill2 = new Bill(2, "Internet", "Utilities", new Date(), 60.0, "Monthly", null, "N/A", true, "Pending", 2, null);
 
         // Add bills
-        billController.addBill(bill1);
-        billController.addBill(bill2);
+        billController.addBillController(bill1);
+        billController.addBillController(bill2);
 
         // List all bills
         System.out.println("Listing all bills:");
-        billController.listAllBills();
+        billController.listAllBillsController();
 
         // Update a bill
         bill1.setAmount(120.0);
-        billController.updateBill(bill1);
+        billController.updateBillController(bill1);
 
         // Get details of a specific bill
         System.out.println("Details of bill ID 1:");
-        billController.getBillDetails(1);
+        billController.getBillDetailsController(1);
 
         // Delete a bill
-        billController.deleteBill(2);
+        billController.deleteBillController(2);
 
         // List all bills again
         System.out.println("Listing all bills after deletion:");
-        billController.listAllBills();
+        billController.listAllBillsController();
     }
 }
