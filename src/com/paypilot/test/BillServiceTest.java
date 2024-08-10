@@ -26,7 +26,7 @@ public class BillServiceTest {
         billService.addBillService(bill);
         Bill retrievedBill = billService.getBillByIdSerivce(5);
         assertNotNull("Bill should be added successfully", retrievedBill);
-        assertEquals("Bill ID should match", 5, retrievedBill.getBillId());
+        assertEquals("Bill ID not found", 5, retrievedBill.getBillId());
     }
 
     @Test
@@ -35,14 +35,14 @@ public class BillServiceTest {
         billService.updateBillService(bill);
         Bill updatedBill = billService.getBillByIdSerivce(1);
         assertNotNull("Bill should be updated successfully", updatedBill);
-        assertEquals("Amount should match", 100.50, updatedBill.getAmount(), 0.01);
+        assertEquals("Amount did not match", 100.50, updatedBill.getAmount(), 0.01);
     }
 
     @Test
     public void testDeleteBill() {
         billService.deleteBillService(2);
         Bill deletedBill = billService.getBillByIdSerivce(2);
-        assertNull("Bill should be deleted", deletedBill);
+        assertNull("Coudl not delete Bill", deletedBill);
     }
 
     @Test
@@ -58,6 +58,6 @@ public class BillServiceTest {
     public void testGetBillById() {
         Bill bill = billService.getBillByIdSerivce(3);
         assertNotNull("Bill should be found by ID", bill);
-        assertEquals("Bill name should match", "Rent", bill.getBillName());
+        assertEquals("Bill name not found", "Rent", bill.getBillName());
     }
 }
