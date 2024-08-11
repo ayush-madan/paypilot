@@ -156,13 +156,13 @@ public class BillManagerService {
     }
 
     // Method to snooze a bill
-    public void snoozeBillService(Date SnoozeDate, int id) {
+    public void snoozeBillService(Date snoozeDate, int id) {
         
     	List<Bill> allBills = br.getAllBills();
 
 		for(Bill b:allBills){
 			if(b.getBillId() == id){
-				br.markBillAsPaid(b);
+				br.snoozeBill(b,snoozeDate);
 			}
 		}
     }
@@ -177,5 +177,9 @@ public class BillManagerService {
 				br.markBillAsPaid(b);
 			}
 		}
+    }
+    
+    public List<Bill> getAllBillsService(){
+    	return br.getAllBills();
     }
 }
