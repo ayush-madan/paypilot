@@ -188,6 +188,7 @@ public class BillManagerService {
     
     	for(Bill b:temp2) {
     		br.snoozeBill(b, SnoozeDate);
+		break;
     	}
     }
 
@@ -222,7 +223,8 @@ public class BillManagerService {
     	}
     
     	for(Bill b:temp2) {
-    		br.markBillAsPaid(b);;
+    		br.markBillAsPaid(b);
+		break;
     	}
     }
 }
