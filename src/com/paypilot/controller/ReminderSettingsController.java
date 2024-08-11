@@ -4,62 +4,33 @@ import com.paypilot.model.ReminderSettings;
 import com.paypilot.model.Bill;
 import com.paypilot.service.ReminderSettingsService;
 import com.paypilot.repo.ReminderSettingsRepository;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Controller class for managing ReminderSettings-related operations.
- */
 public class ReminderSettingsController {
 
     private ReminderSettingsService reminderSettingsService;
 
-    /**
-     * Constructs a ReminderSettingsController with the specified ReminderSettingsService.
-     *
-     * @param reminderSettingsService the ReminderSettingsService instance
-     */
     public ReminderSettingsController(ReminderSettingsService reminderSettingsService) {
         this.reminderSettingsService = reminderSettingsService;
     }
 
-    /**
-     * Adds a new ReminderSettings instance.
-     *
-     * @param reminderSettings the ReminderSettings to be added
-     */
     public void addReminder(ReminderSettings reminderSettings) {
         reminderSettingsService.addReminderService(reminderSettings);
         System.out.println("Reminder added successfully.");
     }
 
-    /**
-     * Updates an existing ReminderSettings instance.
-     *
-     * @param reminderSettings the ReminderSettings to be updated
-     */
     public void updateReminder(ReminderSettings reminderSettings) {
         reminderSettingsService.updateReminderService(reminderSettings);
         System.out.println("Reminder updated successfully.");
     }
 
-    /**
-     * Deletes a ReminderSettings instance by its ID.
-     *
-     * @param reminderId the ID of the ReminderSettings to be deleted
-     */
     public void deleteReminder(int reminderId) {
         reminderSettingsService.deleteReminderService(reminderId);
         System.out.println("Reminder deleted successfully.");
     }
 
-    /**
-     * Retrieves and displays a ReminderSettings instance by its ID.
-     *
-     * @param reminderId the ID of the ReminderSettings to be retrieved
-     */
     public void getReminderById(int reminderId) {
         Optional<ReminderSettings> reminder = reminderSettingsService.getReminderByIdService(reminderId);
         if (reminder.isPresent()) {
@@ -69,9 +40,6 @@ public class ReminderSettingsController {
         }
     }
 
-    /**
-     * Lists and displays all ReminderSettings instances.
-     */
     public void listAllReminders() {
         List<ReminderSettings> reminders = reminderSettingsService.getAllRemindersService();
         for (ReminderSettings reminder : reminders) {
@@ -79,9 +47,6 @@ public class ReminderSettingsController {
         }
     }
 
-    /**
-     * Main method for testing the ReminderSettingsController functionality.
-     */
     public static void main(String[] args) {
         // Setup repository and service
         ReminderSettingsRepository reminderSettingsRepository = new ReminderSettingsRepository();
