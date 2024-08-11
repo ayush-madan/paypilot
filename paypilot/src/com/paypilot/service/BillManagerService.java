@@ -156,11 +156,20 @@ public class BillManagerService {
     }
 
     // Method to snooze a bill
-    public void snoozeBillService(String Category, String name, Date SnoozeDate) {
+    public void snoozeBillService(String Category, String name, Date SnoozeDate, int id) {
         // Implementation goes here
     	List<Bill> allBills = br.getUpcomingBills();
     	List<Bill> temp1;
     	List<Bill> temp2;
+
+	if(id != null){
+		for(Bill b:allBills){
+			if(b.getBillId() == id){
+				br.markBillAsPaid(b);
+			}
+		}
+	}
+	else{
 
     	// Filter by Category
     	if (Category != null) {
@@ -190,14 +199,24 @@ public class BillManagerService {
     		br.snoozeBill(b, SnoozeDate);
 		break;
     	}
+	}
     }
 
     // Method to mark a bill as paid
-    public void markBillAsPaidService(String Category, String name) {
+    public void markBillAsPaidService(String Category, String name, int id) {
     	List<Bill> allBills = br.getUpcomingBills();
     	List<Bill> temp1;
     	List<Bill> temp2;
 
+
+	if(id != null){
+		for(Bill b:allBills){
+			if(b.getBillId() == id){
+				br.markBillAsPaid(b);
+			}
+		}
+	}
+	else{
     	// Filter by Category
     	if (Category != null) {
     		temp1 = new ArrayList<>();
@@ -226,5 +245,6 @@ public class BillManagerService {
     		br.markBillAsPaid(b);
 		break;
     	}
+    }
     }
 }
