@@ -1,3 +1,12 @@
+/*
+ * The BillManagerRepo class is responsible for managing the storage, retrieval, and updating of Bill objects.
+ * It provides various methods to create new bills, get an overview of bills, and manage the state of bills (e.g., marking them as paid, snoozing them, etc.).
+ * This class interacts with the BillManagerModel to handle the underlying data structure that stores all bills.
+ * 
+ * Author: Aryman Srivastava
+ * Date: 09-08-2024
+ */
+
 package com.paypilot.repo;
 
 import java.io.File;
@@ -16,6 +25,8 @@ public class BillManagerRepo {
 		return new Bill(billId, name, Category, dueDate, amount, reminderFrequency, attachement, note, isRecurring, paymentStatus, overDueDays, rs);
 	}
 	
+	
+	// Retrieves a list of bills that match the specified category, date range, and status
     public List<Bill> getBillsOverview(String category, Date fromDate, Date toDate, String status) {
         // Implementation goes here
     	List<Bill> allBills = b.getAllBills();
@@ -66,7 +77,7 @@ public class BillManagerRepo {
         return upcomingBills;
     }
 
-    // Method to snooze a bill
+    // Snoozes a bill by updating its due date to a new date
     public void snoozeBill(Bill bill, Date snoozeDate) {
         // Implementation goes here
     	List<Bill> allBills = b.getAllBills();
@@ -79,7 +90,7 @@ public class BillManagerRepo {
     	b.setAllBills(allBills);
     }
 
-    // Method to mark a bill as paid
+    // Marks a bill as paid by updating its payment status
     public void markBillAsPaid(Bill bill) {
         // Implementation goes here
     	List<Bill> allBills = b.getAllBills();
@@ -93,6 +104,7 @@ public class BillManagerRepo {
     	b.setAllBills(allBills);
     }
     
+    //Retrieves a list of all bills
     public List<Bill> getAllBills(){
     	return b.getAllBills();
     }

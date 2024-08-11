@@ -1,3 +1,11 @@
+/*
+ *  The BillServiceTest class contains unit tests for the BillService class, 
+ *  which provides functionalities for managing bills.
+ *  
+ *  Author: Dimple
+ *  Date: 09-08-2024
+ */
+
 package com.paypilot.test;
 
 import com.paypilot.model.Bill;

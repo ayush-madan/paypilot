@@ -1,3 +1,14 @@
+/*
+ * The BillRepository class is responsible for managing a collection of Bill objects.
+ * It provides methods for adding, updating, deleting, and retrieving bills.
+ * Additionally, this class allows for searching bills by category and updating reminder settings for a specific bill. 
+ * This repository is initialized with some demo data for testing purposes. 
+ * Author: Anshul
+ * Date: 09-08-2024 
+ */
+
+
+
 package com.paypilot.repo;
 
 import com.paypilot.model.Bill;
@@ -21,10 +32,12 @@ public class BillRepository {
         bills.add(new Bill(4, "Groceries", "Groceries", new Date(2024-1900, 7, 5), 200.00, "Weekly", null, "Weekly groceries", false, "Paid", 0, null));
     }
 
+    //Adds a new bill to the repository
     public void addBill(Bill bill) {
         bills.add(bill);
     }
 
+    //Updates an existing bill in the repository
     public void updateBill(Bill bill) {
         for (int i = 0; i < bills.size(); i++) {
             if (bills.get(i).getBillId() == bill.getBillId()) {
@@ -33,15 +46,18 @@ public class BillRepository {
             }
         }
     }
-
+    
+    //Based on bill's ID, deletes the bill
     public void deleteBill(int billId) {
         bills.removeIf(bill -> bill.getBillId() == billId);
     }
 
+    //Retrieves all bills in the repository
     public List<Bill> getAllBills() {
         return new ArrayList<>(bills);
     }
 
+    //Retrieving a bill by its ID.
     public Bill getBillById(int billId) {
         for (Bill bill : bills) {
             if (bill.getBillId() == billId) {

@@ -1,3 +1,13 @@
+/*
+ * The BillManagerService class provides service methods for managing bills.
+ * This class interacts with the BillManagerRepo to perform operations such as 
+ * creating, retrieving, updating, and deleting bills. It includes methods for 
+ * handling overdue and upcoming bills, as well as marking bills as paid/snoozed.
+ * 
+ * Author: Aryman Srivastava
+ * Date: 09-08-2024
+ */
+
 package com.paypilot.service;
 
 import java.io.File;
@@ -12,6 +22,8 @@ import com.paypilot.repo.BillManagerRepo;
 public class BillManagerService {
 	BillManagerRepo br = new BillManagerRepo();
 	
+	
+	// Retrieves a list of bills based on the specified category, date range, and status
 	public List<Bill> getBillsOverviewService(String category, Date fromDate, Date toDate, String status) {
         // Implementation goes here
 		
@@ -156,30 +168,95 @@ public class BillManagerService {
     }
 
     // Method to snooze a bill
-    public void snoozeBillService(Date snoozeDate, int id) {
-        
-    	List<Bill> allBills = br.getAllBills();
+    public void snoozeBillService(String Category, String name, Date SnoozeDate, int id) {
+        // Implementation goes here
+    	List<Bill> allBills = br.getUpcomingBills();
+    	List<Bill> temp1;
+    	List<Bill> temp2;
 
-		for(Bill b:allBills){
-			if(b.getBillId() == id){
-				br.snoozeBill(b,snoozeDate);
-			}
-		}
-    }
-
-    // Method to mark a bill as paid
-    public void markBillAsPaidService(int id) {
-    	List<Bill> allBills = br.getAllBills();
-
-	
+	if(id != null){
 		for(Bill b:allBills){
 			if(b.getBillId() == id){
 				br.markBillAsPaid(b);
 			}
 		}
-    }
+	}
+	else{
+
+    	// Filter by Category
+    	if (Category != null) {
+    		temp1 = new ArrayList<>();
+    	    for (Bill b : allBills) {
+    	        if (b.getBillCategory().equalsIgnoreCase(Category)) {
+    	            temp1.add(b);
+    	        }
+    	    }
+    	} else {
+    	    temp1 = allBills;
+    	}
+
+    	// Filter by Name
+    	if (name != null) {
+    	    temp2 = new ArrayList<>();
+    	    for (Bill b : temp1) {
+    	        if (b.getBillName().equalsIgnoreCase(name)) {
+    	            temp2.add(b);
+    	        }
+    	    }
+    	} else {
+    	    temp2 = temp1;
+    	}
     
-    public List<Bill> getAllBillsService(){
-    	return br.getAllBills();
+    	for(Bill b:temp2) {
+    		br.snoozeBill(b, SnoozeDate);
+		break;
+    	}
+	}
+    }
+
+    // Method to mark a bill as paid
+    public void markBillAsPaidService(String Category, String name, int id) {
+    	List<Bill> allBills = br.getUpcomingBills();
+    	List<Bill> temp1;
+    	List<Bill> temp2;
+
+
+	if(id != null){
+		for(Bill b:allBills){
+			if(b.getBillId() == id){
+				br.markBillAsPaid(b);
+			}
+		}
+	}
+	else{
+    	// Filter by Category
+    	if (Category != null) {
+    		temp1 = new ArrayList<>();
+    	    for (Bill b : allBills) {
+    	        if (b.getBillCategory().equalsIgnoreCase(Category)) {
+    	            temp1.add(b);
+    	        }
+    	    }
+    	} else {
+    	    temp1 = allBills;
+    	}
+
+    	// Filter by Name
+    	if (name != null) {
+    	    temp2 = new ArrayList<>();
+    	    for (Bill b : temp1) {
+    	        if (b.getBillName().equalsIgnoreCase(name)) {
+    	            temp2.add(b);
+    	        }
+    	    }
+    	} else {
+    	    temp2 = temp1;
+    	}
+    
+    	for(Bill b:temp2) {
+    		br.markBillAsPaid(b);
+		break;
+    	}
+    }
     }
 }

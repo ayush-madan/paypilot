@@ -1,3 +1,13 @@
+/*
+ * The ReminderSettings class provides the settings for reminders related to bills.
+ * It includes information on how often to remind, when to start, and notification preferences.
+ * It also references the Bill for which the reminders are set.
+ * 
+ * Author: Anshul
+ * Date: 09-08-2024
+ */
+
+
 package com.paypilot.model;
 
 import java.util.Date;
@@ -5,10 +15,10 @@ import java.util.Date;
 public class ReminderSettings {
 
     private int reminderId;
-    private String reminderFrequency;
+    private String reminderFrequency; // Frequency of the reminder
     private Date reminderStartDate;
-    private String customMessage;
-    private String notificationPref;
+    private String customMessage; // Custom message to be sent with the reminder
+    private String notificationPref; // Preference for notification
     private Bill bill;  // Reference to a Bill
 
     // Constructor

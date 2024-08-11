@@ -1,4 +1,12 @@
+/*
+ * This class manages user interactions with the BillService to handle operations related to Bills.
+ *
+ * Author: Anshul
+ * Date: 09-08-2024
+ */
+
 package com.paypilot.controller;
+
 
 import com.paypilot.model.Bill;
 import com.paypilot.model.ReminderSettings;
@@ -15,22 +23,25 @@ public class BillController {
         this.billService = billService;
     }
 
-    
+    // Adds a bill and prints message
     public void addBillController(Bill bill) {
         billService.addBillService(bill);  
         System.out.println("Bill added successfully.");
     }
 
+    // Updates an existing bill and prints message
     public void updateBillController(Bill bill) {
         billService.updateBillService(bill);  
         System.out.println("Bill updated successfully.");
     }
-
+    
+    // Deletes a bill and prints message
     public void deleteBillController(int billId) {
         billService.deleteBillService(billId);  
         System.out.println("Bill deleted successfully.");
     }
 
+    // Provides list of bill
     public void listAllBillsController() {
         List<Bill> bills = billService.getAllBillsService();  
         for (Bill bill : bills) {
@@ -38,6 +49,7 @@ public class BillController {
         }
     }
 
+    // Retrieves the bill by its ID, print its details if it exists otherwise prints not found.
     public void getBillDetailsController(int billId) {
         Bill bill = billService.getBillByIdService(billId);  
         if (bill != null) {

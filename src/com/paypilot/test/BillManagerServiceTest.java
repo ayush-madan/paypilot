@@ -1,3 +1,11 @@
+/*
+ * This class contains unit tests for the BillManagerService class, ensure that the BillManagerService behaves
+ * as expected by verifying the correctness of its methods using predefined data.
+ * 
+ * Author: Ayush
+ * Date: 09-08-2024
+
+ */
 package com.paypilot.test;
 
 import static org.junit.Assert.*;

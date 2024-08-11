@@ -1,3 +1,12 @@
+/*
+ * The Bill class represents a bill in the system. It contains details such as
+ * the bill's ID, name, category, due date, amount, and other relevant information.
+ * It also includes a relationship with ReminderSettings for managing reminders.
+ * 
+ * Author: Anshul
+ * Date: 09-08-2024
+ */
+
 package com.paypilot.model;
 
 import java.util.Date;

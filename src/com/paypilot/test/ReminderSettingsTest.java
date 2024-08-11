@@ -1,3 +1,10 @@
+/*
+ * The ReminderSettingsTest class contains unit tests for the ReminderSettingsService class, 
+ * which manages the ReminderSettings objects.
+ * 
+ * Author: 
+ * Date: 09-08-2024
+ */
 package com.paypilot.test;
 
 import com.paypilot.model.Bill;

@@ -1,3 +1,10 @@
+/*
+ * The class provides simple methods to manage reminders and prints results to the console for user feedback.
+ *
+ * Author: Anshul
+ * Date: 09-08-2024
+ */
+
 package com.paypilot.controller;
 
 import com.paypilot.model.ReminderSettings;
@@ -16,21 +23,23 @@ public class ReminderSettingsController {
         this.reminderSettingsService = reminderSettingsService;
     }
 
+    // Adds new reminder and provides feedback
     public void addReminder(ReminderSettings reminderSettings) {
         reminderSettingsService.addReminderService(reminderSettings);
         System.out.println("Reminder added successfully.");
     }
-
+    // Updates existing reminder and provides feedback
     public void updateReminder(ReminderSettings reminderSettings) {
         reminderSettingsService.updateReminderService(reminderSettings);
         System.out.println("Reminder updated successfully.");
     }
-
+    // Deletes a reminder and provides feedback
     public void deleteReminder(int reminderId) {
         reminderSettingsService.deleteReminderService(reminderId);
         System.out.println("Reminder deleted successfully.");
     }
 
+    // Retrieves a reminder via ID and prints the feedback
     public void getReminderById(int reminderId) {
         Optional<ReminderSettings> reminder = reminderSettingsService.getReminderByIdService(reminderId);
         if (reminder.isPresent()) {
@@ -39,7 +48,8 @@ public class ReminderSettingsController {
             System.out.println("Reminder not found.");
         }
     }
-
+    
+    // Retrieves and lists all reminders 
     public void listAllReminders() {
         List<ReminderSettings> reminders = reminderSettingsService.getAllRemindersService();
         for (ReminderSettings reminder : reminders) {
