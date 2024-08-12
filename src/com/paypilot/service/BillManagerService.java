@@ -168,95 +168,28 @@ public class BillManagerService {
     }
 
     // Method to snooze a bill
-    public void snoozeBillService(String Category, String name, Date SnoozeDate, int id) {
-        // Implementation goes here
-    	List<Bill> allBills = br.getUpcomingBills();
-    	List<Bill> temp1;
-    	List<Bill> temp2;
+    public void snoozeBillService(Date snoozeDate, int id) {
+    	List<Bill> allBills = br.getAllBills();
 
-	if(id != null){
 		for(Bill b:allBills){
 			if(b.getBillId() == id){
-				br.markBillAsPaid(b);
+				br.snoozeBill(b,snoozeDate);
 			}
 		}
-	}
-	else{
-
-    	// Filter by Category
-    	if (Category != null) {
-    		temp1 = new ArrayList<>();
-    	    for (Bill b : allBills) {
-    	        if (b.getBillCategory().equalsIgnoreCase(Category)) {
-    	            temp1.add(b);
-    	        }
-    	    }
-    	} else {
-    	    temp1 = allBills;
-    	}
-
-    	// Filter by Name
-    	if (name != null) {
-    	    temp2 = new ArrayList<>();
-    	    for (Bill b : temp1) {
-    	        if (b.getBillName().equalsIgnoreCase(name)) {
-    	            temp2.add(b);
-    	        }
-    	    }
-    	} else {
-    	    temp2 = temp1;
-    	}
-    
-    	for(Bill b:temp2) {
-    		br.snoozeBill(b, SnoozeDate);
-		break;
-    	}
-	}
     }
 
     // Method to mark a bill as paid
-    public void markBillAsPaidService(String Category, String name, int id) {
-    	List<Bill> allBills = br.getUpcomingBills();
-    	List<Bill> temp1;
-    	List<Bill> temp2;
+    public void markBillAsPaidService(int id) {
+    	List<Bill> allBills = br.getAllBills();
 
-
-	if(id != null){
 		for(Bill b:allBills){
 			if(b.getBillId() == id){
 				br.markBillAsPaid(b);
 			}
 		}
-	}
-	else{
-    	// Filter by Category
-    	if (Category != null) {
-    		temp1 = new ArrayList<>();
-    	    for (Bill b : allBills) {
-    	        if (b.getBillCategory().equalsIgnoreCase(Category)) {
-    	            temp1.add(b);
-    	        }
-    	    }
-    	} else {
-    	    temp1 = allBills;
-    	}
-
-    	// Filter by Name
-    	if (name != null) {
-    	    temp2 = new ArrayList<>();
-    	    for (Bill b : temp1) {
-    	        if (b.getBillName().equalsIgnoreCase(name)) {
-    	            temp2.add(b);
-    	        }
-    	    }
-    	} else {
-    	    temp2 = temp1;
-    	}
-    
-    	for(Bill b:temp2) {
-    		br.markBillAsPaid(b);
-		break;
-    	}
     }
+    
+    public List<Bill> getAllBillsService(){
+    	return br.getAllBills();
     }
 }
