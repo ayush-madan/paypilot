@@ -31,7 +31,20 @@ public class BillServiceTest {
 
     @Test
     public void testAddBill() {
-        // Create a sample Bill
+        // Create a sample Bill with specific attributes
+        // Arguments: 
+        // billId: 5
+        // billName: "Water"
+        // category: "Utilities"
+        // dueDate: new Date() - current date
+        // amount: 45.0
+        // frequency: "Monthly"
+        // reminder: null
+        // description: "N/A"
+        // paid: true
+        // status: "Upcoming"
+        // priority: 0
+        // reminderSettings: null
         Bill bill = new Bill(5, "Water", "Utilities", new Date(), 45.0, "Monthly", null, "N/A", true, "Upcoming", 0, null);
         
         // Add the bill using the service
@@ -45,7 +58,20 @@ public class BillServiceTest {
 
     @Test
     public void testUpdateBill() {
-        // Create and add a sample Bill
+        // Create and add a sample Bill with specific attributes
+        // Arguments:
+        // billId: 1
+        // billName: "Electricity Bill"
+        // category: "Utilities"
+        // dueDate: new Date(2024 - 1900, 7, 15) - specific date
+        // amount: 100.50
+        // frequency: "Monthly"
+        // reminder: null
+        // description: "Pay before due date"
+        // paid: false
+        // status: "Upcoming"
+        // priority: 0
+        // reminderSettings: null
         Bill bill = new Bill(1, "Electricity Bill", "Utilities", new Date(2024 - 1900, 7, 15), 100.50, "Monthly", null, "Pay before due date", false, "Upcoming", 0, null);
         billService.addBillService(bill); // Ensure the bill is added before updating
         
@@ -56,7 +82,7 @@ public class BillServiceTest {
         // Retrieve and verify the updated bill
         Bill updatedBill = billService.getBillByIdService(1);
         assertNotNull("Bill should be updated successfully", updatedBill);
-        assertEquals("Amount did not match", 100.50, updatedBill.getAmount(), 0.01);
+        assertEquals("Amount did not match", 100.50, updatedBill.getAmount(), 0.01); // Tolerance for floating-point comparison
     }
 
     @Test
@@ -75,6 +101,19 @@ public class BillServiceTest {
         int initialSize = billService.getAllBillsService().size();
         
         // Add a new bill
+        // Arguments:
+        // billId: 6
+        // billName: "Phone"
+        // category: "Utilities"
+        // dueDate: new Date() - current date
+        // amount: 75.0
+        // frequency: "Monthly"
+        // reminder: null
+        // description: "N/A"
+        // paid: false
+        // status: "Upcoming"
+        // priority: 0
+        // reminderSettings: null
         Bill newBill = new Bill(6, "Phone", "Utilities", new Date(), 75.0, "Monthly", null, "N/A", false, "Upcoming", 0, null);
         billService.addBillService(newBill);
         
