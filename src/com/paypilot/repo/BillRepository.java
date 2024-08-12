@@ -8,8 +8,6 @@
  * Date: 09-08-2024 
  */
 
-
-
 package com.paypilot.repo;
 
 import com.paypilot.model.Bill;
@@ -24,7 +22,10 @@ public class BillRepository {
 
     private List<Bill> bills = new ArrayList<>();
 
-    // Constructor to initialize demo data
+    /**
+     * Constructor to initialize the repository with demo bills.
+     * Adds a set of predefined bills to the repository for testing purposes.
+     */
     public BillRepository() {
         // Initialize with some demo bills
         bills.add(new Bill(1, "Electricity Bill", "Utilities", new Date(2024-1900, 7, 15), 100.50, "Monthly", null, "Pay before due date", false, "Upcoming", 0, null));
@@ -33,12 +34,20 @@ public class BillRepository {
         bills.add(new Bill(4, "Groceries", "Groceries", new Date(2024-1900, 7, 5), 200.00, "Weekly", null, "Weekly groceries", false, "Paid", 0, null));
     }
 
-    //Adds a new bill to the repository
+    /**
+     * Adds a new bill to the repository.
+     * 
+     * @param bill The Bill object to be added to the repository.
+     */
     public void addBill(Bill bill) {
         bills.add(bill);
     }
 
-    //Updates an existing bill in the repository
+    /**
+     * Updates an existing bill in the repository. If a bill with the same ID exists, it will be replaced.
+     * 
+     * @param bill The Bill object containing updated information.
+     */
     public void updateBill(Bill bill) {
         for (int i = 0; i < bills.size(); i++) {
             if (bills.get(i).getBillId() == bill.getBillId()) {
@@ -48,17 +57,30 @@ public class BillRepository {
         }
     }
     
-    //Based on bill's ID, deletes the bill
+    /**
+     * Deletes a bill from the repository based on its ID.
+     * 
+     * @param billId The ID of the bill to be deleted.
+     */
     public void deleteBill(int billId) {
         bills.removeIf(bill -> bill.getBillId() == billId);
     }
 
-    //Retrieves all bills in the repository
+    /**
+     * Retrieves all bills from the repository.
+     * 
+     * @return A List of all Bill objects in the repository.
+     */
     public List<Bill> getAllBills() {
         return new ArrayList<>(bills);
     }
 
-    //Retrieving a bill by its ID.
+    /**
+     * Retrieves a bill by its ID.
+     * 
+     * @param billId The ID of the bill to retrieve.
+     * @return The Bill object with the specified ID, or null if not found.
+     */
     public Bill getBillById(int billId) {
         for (Bill bill : bills) {
             if (bill.getBillId() == billId) {
@@ -68,7 +90,12 @@ public class BillRepository {
         return null;
     }
 
-    // Method to find bills by category
+    /**
+     * Finds bills by their category.
+     * 
+     * @param category The category of the bills to find.
+     * @return A List of Bill objects that match the specified category.
+     */
     public List<Bill> getBillsByCategory(String category) {
         List<Bill> result = new ArrayList<>();
         for (Bill bill : bills) {
@@ -79,7 +106,12 @@ public class BillRepository {
         return result;
     }
 
-    // Method to update a bill's reminder settings
+    /**
+     * Updates the reminder settings for a specific bill.
+     * 
+     * @param billId The ID of the bill for which to update the reminder settings.
+     * @param reminderSettings The new ReminderSettings to be set for the bill.
+     */
     public void updateBillReminderSettings(int billId, ReminderSettings reminderSettings) {
         Bill bill = getBillById(billId);
         if (bill != null) {

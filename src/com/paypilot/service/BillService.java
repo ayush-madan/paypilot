@@ -1,64 +1,73 @@
-/*
- * BillService provides the service methods for managing bills and reminder settings.
- * It interacts with the BillRepository to perform CRUD operations on bills and to update reminder settings.
- * 
- * Author: Anshul 
- * Date: 09-08-2024
- */
-
-
 package com.paypilot.service;
 
 import com.paypilot.model.Bill;
-import com.paypilot.model.ReminderSettings;
 import com.paypilot.repo.BillRepository;
-
-import java.util.Date;
 import java.util.List;
 
+/**
+ * The BillService class provides services for managing Bill objects.
+ * It acts as an intermediary between the application and the BillRepository.
+ * This class includes methods for adding, updating, deleting, and retrieving bills.
+ * 
+ * Author: Anshul
+ * Date: 09-08-2024
+ */
 public class BillService {
 
-    private BillRepository billRepository;
+    private BillRepository billRepository; // Repository to manage Bill objects
 
+    /**
+     * Constructs a BillService with the specified BillRepository.
+     * 
+     * @param billRepository The BillRepository used by this service.
+     */
     public BillService(BillRepository billRepository) {
         this.billRepository = billRepository;
     }
 
-    // Adds a new bill
-    public void addBillService(Bill bill) {
+    /**
+     * Adds a new Bill to the repository.
+     * 
+     * @param bill The Bill object to be added.
+     */
+    public void addBill(Bill bill) {
         billRepository.addBill(bill);
     }
 
-    // Updates an existing bill
-    public void updateBillService(Bill bill) {
+    /**
+     * Updates an existing Bill in the repository.
+     * 
+     * @param bill The Bill object with updated information.
+     */
+    public void updateBill(Bill bill) {
         billRepository.updateBill(bill);
     }
-    
-    // Deletes a bill
-    public void deleteBillService(int billId) {
+
+    /**
+     * Deletes a Bill from the repository based on its ID.
+     * 
+     * @param billId The ID of the Bill to be deleted.
+     */
+    public void deleteBill(int billId) {
         billRepository.deleteBill(billId);
     }
 
-    // Retrieving the list of all bills
-    public List<Bill> getAllBillsService() {
+    /**
+     * Retrieves all Bills from the repository.
+     * 
+     * @return A List of all Bill objects in the repository.
+     */
+    public List<Bill> getAllBills() {
         return billRepository.getAllBills();
     }
 
-    // Retrieving the bill by bill ID
-    public Bill getBillByIdService(int billId) {
+    /**
+     * Retrieves a Bill from the repository based on its ID.
+     * 
+     * @param billId The ID of the Bill to be retrieved.
+     * @return The Bill object with the specified ID, or null if not found.
+     */
+    public Bill getBillById(int billId) {
         return billRepository.getBillById(billId);
-    }
-
-    // Updating the reminder settings for a specific bill
-    public void updateReminderSettings(int billId, String frequency, Date startDate, String message, String notificationPref, boolean isRecurring) {
-        Bill bill = billRepository.getBillById(billId);
-        if (bill != null) {
-            ReminderSettings reminderSettings = new ReminderSettings(
-                    bill.getReminderSettings() != null ? bill.getReminderSettings().getReminderId() : -1, // Use existing ID or -1 for new
-                    frequency, startDate, message, notificationPref, bill
-            );
-            bill.setReminderSettings(reminderSettings);
-            billRepository.updateBill(bill);
-        }
     }
 }
