@@ -35,9 +35,29 @@ public class ReminderSettingsTest {
     @Test
     public void testAddReminder() {
         // Create a sample Bill
+        // Arguments:
+        // billId: 1
+        // billName: "Electricity Bill"
+        // category: "Utilities"
+        // dueDate: new Date() - current date
+        // amount: 100.50
+        // frequency: "Monthly"
+        // reminder: null
+        // description: "Pay before due date"
+        // paid: false
+        // status: "Upcoming"
+        // priority: 0
+        // reminderSettings: null
         Bill bill = new Bill(1, "Electricity Bill", "Utilities", new Date(), 100.50, "Monthly", null, "Pay before due date", false, "Upcoming", 0, null);
         
         // Create a sample ReminderSettings
+        // Arguments:
+        // reminderId: 1
+        // reminderFrequency: "Monthly"
+        // reminderDate: new Date() - current date
+        // customMessage: "Reminder Message"
+        // notificationType: "Email"
+        // associatedBill: bill - the Bill object associated with this reminder
         ReminderSettings reminderSettings = new ReminderSettings(1, "Monthly", new Date(), "Reminder Message", "Email", bill);
         
         // Add the reminder using the service
@@ -55,10 +75,24 @@ public class ReminderSettingsTest {
         Bill bill = new Bill(1, "Electricity Bill", "Utilities", new Date(), 100.50, "Monthly", null, "Pay before due date", false, "Upcoming", 0, null);
         
         // Create and add a sample ReminderSettings
+        // Arguments:
+        // reminderId: 1
+        // reminderFrequency: "Monthly"
+        // reminderDate: new Date() - current date
+        // customMessage: "Reminder Message"
+        // notificationType: "Email"
+        // associatedBill: bill - the Bill object associated with this reminder
         ReminderSettings reminderSettings = new ReminderSettings(1, "Monthly", new Date(), "Reminder Message", "Email", bill);
         reminderSettingsService.addReminderService(reminderSettings);
 
         // Create and update the reminder with new values
+        // Arguments for updated ReminderSettings:
+        // reminderId: 1
+        // reminderFrequency: "Weekly"
+        // reminderDate: new Date() - current date
+        // customMessage: "Updated Message"
+        // notificationType: "SMS"
+        // associatedBill: bill - the same Bill object
         ReminderSettings updatedReminderSettings = new ReminderSettings(1, "Weekly", new Date(), "Updated Message", "SMS", bill);
         reminderSettingsService.updateReminderService(updatedReminderSettings);
 
