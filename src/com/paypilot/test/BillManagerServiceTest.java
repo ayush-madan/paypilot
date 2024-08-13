@@ -23,7 +23,13 @@ import com.paypilot.service.BillService;
 public class BillManagerServiceTest {
 
 	private BillManagerService billManagerService;
-
+	
+	
+	/**
+	 * Sets up the test environment by initializing the {@link BillManagerService} instance.
+	 * This method is executed before each test method to ensure that the {@link BillManagerService}
+	 * is properly set up with a predefined set of demo bills for testing purposes.
+	 * */
     @Before
     public void setUp() {
         billManagerService = new BillManagerService();
@@ -35,7 +41,18 @@ public class BillManagerServiceTest {
         billManagerService.addNewBillService("Groceries", "Groceries", new Date(2024-1900, 7, 5), 200.00, "Weekly", null, "Weekly groceries", false, "Paid", 0);
     }
     
-
+    /**
+     * Tests the {@link BillManagerService#getBillsOverviewService(String, Date, Date, String)} method.
+     *
+     * <p>This test checks if the method correctly retrieves bills based on the category, date range,
+     * and payment status. It uses the demo data from {@link #setUp()}.</p>
+     *
+     * <p>The test verifies:</p>
+     * <ul>
+     *     <li>That the returned list is not null.</li>
+     *     <li>That all bills in the list have the correct status and category.</li>
+     * </ul>
+     */
 	@Test
 	public void testGetBillsOverviewService() {
 		// Testing using the first entry as per setUp() method
@@ -57,7 +74,18 @@ public class BillManagerServiceTest {
         }		
 	}
 	
-
+	
+	/**
+	 * Tests the {@link BillManagerService#addNewBillService(String, String, Date, double, String, Object, String, boolean, String, int)} method.
+	 *
+	 * <p>This test verifies that a new bill is added correctly to the service.</p>
+	 *
+	 * <p>The test checks:</p>
+	 * <ul>
+	 *     <li>That the size of the bill list increases by one after adding a new bill.</li>
+	 *     <li>That the newly added bill has the correct name.</li>
+	 * </ul>
+	 */
 	@Test
 	public void testAddNewBillService() {
 		int dbSize = billManagerService.getAllBillsService().size();
@@ -75,7 +103,18 @@ public class BillManagerServiceTest {
 		assertEquals("Failed to add a new bill", "Water", newBill.getBillName());
 	}
 	
-
+	
+	/**
+	 * Tests the {@link BillManagerService#getOverdueBillsService(String, String, Date, Date)} method.
+	 *
+	 * <p>This test verifies if the method correctly retrieves overdue bills based on category, name, and date range.</p>
+	 *
+	 * <p>The test checks:</p>
+	 * <ul>
+	 *     <li>The returned list is not null.</li>
+	 *     <li>All bills in the list have overdueDays > 0.</li>
+	 * </ul>
+	 */
 	@Test
 	public void testGetOverdueBillsService() {
 		// Testing using the third entry as per setUp() method
@@ -96,6 +135,18 @@ public class BillManagerServiceTest {
 	}
 	
 	
+	/**
+	 * Tests the {@link BillManagerService#getUpcomingBillsService(String, String, Date, Date)} method.
+	 *
+	 * <p>This test verifies that the method correctly retrieves upcoming bills based on the category,
+	 * name, and date range. It uses demo data from {@link #setUp()}.</p>
+	 *
+	 * <p>The test checks:</p>
+	 * <ul>
+	 *     <li>The returned list is not null.</li>
+	 *     <li>All bills have the status "Upcoming".</li>
+	 * </ul>
+	 */
 	@Test
 	public void testGetUpcomingBillsService() {
 		// Testing using the first entry as per setUp() method
@@ -117,6 +168,18 @@ public class BillManagerServiceTest {
 	}
 	
 	
+	/**
+	 * Tests the {@link BillManagerService#snoozeBillService(Date, int)} method.
+	 *
+	 * <p>This test verifies that snoozing a bill updates its due date correctly. It uses the second
+	 * demo entry from the {@link #setUp()} method.</p>
+	 *
+	 * <p>The test:</p>
+	 * <ul>
+	 *     <li>Calls snoozeBillService with a new due date and the bill ID.</li>
+	 *     <li>Retrieves the bill and checks that its due date matches the snooze date.</li>
+	 * </ul>
+	 */
 	@Test
 	public void testSnoozeBillService() {
 		// Testing using the second entry as per setUp() method
@@ -138,6 +201,17 @@ public class BillManagerServiceTest {
 	}
 	
 	
+	/**
+	 * Tests the {@link BillManagerService#markBillAsPaidService(int)} method.
+	 *
+	 * <p>This test verifies that the method correctly updates the payment status of a bill to "Paid".</p>
+	 *
+	 * <p>The test:</p>
+	 * <ul>
+	 *     <li>Marks a bill (with ID 1) as paid.</li>
+	 *     <li>Retrieves the updated bill and checks that its payment status is "Paid".</li>
+	 * </ul>
+	 */
 	@Test
 	public void testMarkBillAsPaidService() {
 		// Testing using the first entry as per setUp() method
