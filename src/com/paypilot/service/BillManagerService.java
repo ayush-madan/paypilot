@@ -23,9 +23,16 @@ public class BillManagerService {
 	BillManagerRepo br = new BillManagerRepo();
 	
 	
-	// Retrieves a list of bills based on the specified category, date range, and status
+	/**
+     * Retrieves a list of bills based on the specified category, date range, and status.
+     * 
+     * @param category The category of the bills to retrieve.
+     * @param fromDate The start date of the date range.
+     * @param toDate The end date of the date range.
+     * @param status The status of the bills to retrieve (e.g., "Upcoming").
+     * @return A list of bills that match the specified criteria.
+     */
 	public List<Bill> getBillsOverviewService(String category, Date fromDate, Date toDate, String status) {
-        // Implementation goes here
 		
 //		Type of Bills Debt, Payment, HouseRent, Groceries, InternetCharges, RetirementCharges, CellPhoneCharges
 //		List<Bill> allBill = br.getBillsOverview(category, fromDate, toDate, status);
@@ -58,7 +65,20 @@ public class BillManagerService {
 		return br.getBillsOverview(category, fromDate, toDate, status);
     }
 
-    // Method to add a new bill
+     /**
+     * Adds a new bill to the bill manager service.
+     * 
+     * @param name The name of the bill.
+     * @param Category The category of the bill.
+     * @param dueDate The due date of the bill.
+     * @param amount The amount of the bill.
+     * @param reminderFrequency The reminder frequency for the bill.
+     * @param attachment An optional file attachment associated with the bill.
+     * @param note An optional note for the bill.
+     * @param isRecurring Indicates if the bill is recurring.
+     * @param paymentStatus The payment status of the bill (e.g., "Paid", "Upcoming").
+     * @param overDueDays The number of overdue days, if applicable.
+     */
     public void addNewBillService(String name, String Category, Date dueDate, double amount, String reminderFrequency, File attachement, String note,boolean isRecurring, String paymentStatus, int overDueDays) {
         List<Bill> allBills = br.getAllBills();
     	int billId = allBills.size()+1;
@@ -67,9 +87,16 @@ public class BillManagerService {
         			paymentStatus, overDueDays, null));
         }
 
-    // Method to get overdue bills
+    /**
+     * Retrieves a list of overdue bills based on the specified criteria.
+     * 
+     * @param Category The category of the bills to retrieve.
+     * @param name The name of the bills to retrieve.
+     * @param dateTo The end date of the date range.
+     * @param dateFrom The start date of the date range.
+     * @return A list of overdue bills that match the specified criteria.
+     */
     public List<Bill> getOverdueBillsService(String Category, String name, Date dateTo, Date dateFrom) {
-        // Implementation goes here
     	List<Bill> allBills = br.getOverdueBills();
     	List<Bill> temp1;
     	List<Bill> temp2;
@@ -117,9 +144,16 @@ public class BillManagerService {
     	return temp3;
     }
 
-    // Method to get upcoming bills
+    /**
+     * Retrieves a list of upcoming bills based on the specified criteria.
+     * 
+     * @param Category The category of the bills to retrieve.
+     * @param name The name of the bills to retrieve.
+     * @param dateTo The end date of the date range.
+     * @param dateFrom The start date of the date range.
+     * @return A list of upcoming bills that match the specified criteria.
+     */// Method to get upcoming bills
     public List<Bill> getUpcomingBillsService(String Category, String name, Date dateTo, Date dateFrom) {
-        // Implementation goes here
     	List<Bill> allBills = br.getUpcomingBills();
     	List<Bill> temp1;
     	List<Bill> temp2;
@@ -167,7 +201,12 @@ public class BillManagerService {
     	return temp3;
     }
 
-    // Method to snooze a bill
+     /**
+     * Snoozes a bill by updating its due date to a specified snooze date.
+     * 
+     * @param snoozeDate The new due date for the bill.
+     * @param id The ID of the bill to snooze.
+     */
     public void snoozeBillService(Date snoozeDate, int id) {
     	List<Bill> allBills = br.getAllBills();
 
@@ -178,7 +217,11 @@ public class BillManagerService {
 		}
     }
 
-    // Method to mark a bill as paid
+       /**
+     * Marks a bill as paid by updating its payment status.
+     * 
+     * @param id The ID of the bill to mark as paid.
+     */
     public void markBillAsPaidService(int id) {
     	List<Bill> allBills = br.getAllBills();
 
