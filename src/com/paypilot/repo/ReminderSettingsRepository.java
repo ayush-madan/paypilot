@@ -1,10 +1,3 @@
-package com.paypilot.repo;
-
-import com.paypilot.model.ReminderSettings;
-
-import java.util.List;
-import java.util.Optional;
-
 /**
  * The {@code ReminderSettingsRepository} class is responsible for managing {@code ReminderSettings} objects.
  * It delegates data management tasks to the {@code ReminderSettingsDAO} for database operations.
@@ -12,6 +5,14 @@ import java.util.Optional;
  * <p>Author: Anshul</p>
  * <p>Date: 09-08-2024</p>
  */
+package com.paypilot.repo;
+
+import com.paypilot.model.ReminderSettings;
+
+import java.util.List;
+import java.util.Optional;
+
+
 public class ReminderSettingsRepository {
 
     private ReminderSettingsDAOInterface reminderSettingsDAO; // DAO instance for database operations
