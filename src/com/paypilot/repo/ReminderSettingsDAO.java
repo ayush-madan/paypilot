@@ -1,3 +1,11 @@
+/**
+ * The {@code ReminderSettingsDAOImpl} class implements the {@code ReminderSettingsDAO} interface
+ * and provides methods for managing {@code ReminderSettings} entities in the data source.
+ * It uses a {@code Connection} for database operations and an optional {@code BillDAO} for fetching {@code Bill} objects.
+ * 
+ * <p>Author: Anshul</p>
+ * <p>Date: 20-08-2024</p>
+ */
 package com.paypilot.repo;
 
 import com.paypilot.model.Bill;
@@ -8,14 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * The {@code ReminderSettingsDAOImpl} class implements the {@code ReminderSettingsDAO} interface
- * and provides methods for managing {@code ReminderSettings} entities in the data source.
- * It uses a {@code Connection} for database operations and an optional {@code BillDAO} for fetching {@code Bill} objects.
- * 
- * <p>Author: Anshul</p>
- * <p>Date: 09-08-2024</p>
- */
+
 public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
 
     private Connection connection;
