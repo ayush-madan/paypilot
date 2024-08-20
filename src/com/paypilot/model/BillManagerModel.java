@@ -3,7 +3,7 @@
  * It provides methods to get and set the list of all bills.
  * 
  * Author: Aryman Srivastava
- * Date: 09-08-2024
+ * <p>Date: 09-08-2024</p>
  */
 
 package com.paypilot.model;
@@ -11,12 +11,15 @@ package com.paypilot.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.paypilot.repo.BillManagerDAO;
+
 
 
 public class BillManagerModel {
 	
 	// List to hold all Bill objects
-	private List<Bill> allBils = new ArrayList<>();
+//	private List<Bill> allBils = new ArrayList<>();
+	BillManagerDAOInterface dao = new BillManagerDAO();
 
 	/**
      	* Retrieves the current list of all bills.
@@ -24,7 +27,7 @@ public class BillManagerModel {
      	* @return A list of all Bill objects
      	*/
 	public List<Bill> getAllBills(){
-		return this.allBils;
+		return dao.getAllBills();
 	}
 
 	/**
@@ -32,7 +35,11 @@ public class BillManagerModel {
      	* 
      	* @param bills The list of Bill objects to set
      	*/
-	public void setAllBills(List<Bill> b){
-		this.allBils = b;
+	public void setBill(Bill b){
+		dao.addBill(b);
+	}
+	
+	public Bill getBillbyId(int id) {
+		return dao.getBillById(id);
 	}
 }

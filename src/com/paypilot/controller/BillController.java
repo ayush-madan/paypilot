@@ -2,8 +2,8 @@ package com.paypilot.controller;
 
 import com.paypilot.model.Bill;
 import com.paypilot.model.ReminderSettings;
+import com.paypilot.repo.BillDAOInterface;
 import com.paypilot.repo.BillDAO;
-import com.paypilot.repo.BillDAOImpl;
 import com.paypilot.repo.BillRepository;
 import com.paypilot.service.BillService;
 import java.util.Date;
@@ -100,7 +100,7 @@ public class BillController {
      */
     public static void main(String[] args) {
         // Setup repository and service for the BillController.
-        BillDAO billDAO = new BillDAOImpl(); // Ensure proper instantiation
+        BillDAOInterface billDAO = new BillDAO(); // Ensure proper instantiation
         BillRepository billRepository = new BillRepository(billDAO);
         BillService billService = new BillService(billRepository);
         BillController billController = new BillController(billService);

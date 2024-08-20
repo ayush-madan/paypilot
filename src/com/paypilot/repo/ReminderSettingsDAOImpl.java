@@ -19,7 +19,7 @@ import java.util.Optional;
 public class ReminderSettingsDAOImpl implements ReminderSettingsDAO {
 
     private Connection connection;
-    private BillDAO billDAO; // Instance of BillDAO for retrieving Bill objects
+    private BillDAOInterface billDAO; // Instance of BillDAO for retrieving Bill objects
     
     /**
      * Default constructor.
@@ -32,7 +32,7 @@ public class ReminderSettingsDAOImpl implements ReminderSettingsDAO {
      * 
      * @param billDAO The {@code BillDAO} instance used to fetch {@code Bill} objects.
      */
-    public ReminderSettingsDAOImpl(BillDAO billDAO) {
+    public ReminderSettingsDAOImpl(BillDAOInterface billDAO) {
         this.billDAO = billDAO;
     }
 

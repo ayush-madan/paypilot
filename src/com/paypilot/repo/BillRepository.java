@@ -14,14 +14,14 @@ import java.util.List;
  */
 public class BillRepository {
 
-    private BillDAO billDAO;
+    private BillDAOInterface billDAO;
 
     /**
      * Constructs a {@code BillRepository} with the given {@code BillDAO}.
      * 
      * @param billDAO The {@code BillDAO} object used for database operations.
      */
-    public BillRepository(BillDAO billDAO) {
+    public BillRepository(BillDAOInterface billDAO) {
         this.billDAO = billDAO;
     }
 
