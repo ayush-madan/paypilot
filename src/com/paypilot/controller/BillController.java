@@ -1,3 +1,14 @@
+package com.paypilot.controller;
+
+import com.paypilot.model.Bill;
+import com.paypilot.model.ReminderSettings;
+import com.paypilot.repo.BillDAO;
+import com.paypilot.repo.BillDAOImpl;
+import com.paypilot.repo.BillRepository;
+import com.paypilot.service.BillService;
+import java.util.Date;
+import java.util.List;
+
 /**
  * The {@code BillController} class manages the interaction between the user interface
  * and the {@code BillService} to handle various operations related to {@code Bill} objects.
@@ -10,15 +21,6 @@
  * <p>Author: Anshul</p>
  * <p>Date: 09-08-2024</p>
  */
-package com.paypilot.controller;
-
-import com.paypilot.model.Bill;
-import com.paypilot.model.ReminderSettings;
-import com.paypilot.service.BillService;
-import com.paypilot.repo.BillRepository;
-import java.util.Date;
-import java.util.List;
-
 public class BillController {
 
     /**
@@ -40,7 +42,7 @@ public class BillController {
      *
      * @param bill The {@code Bill} object to be added.
      */
-    public void addBillController(Bill bill) {
+    public void addBill(Bill bill) {
         billService.addBillService(bill);
         System.out.println("Bill added successfully.");
     }
@@ -50,7 +52,7 @@ public class BillController {
      *
      * @param bill The {@code Bill} object with updated information.
      */
-    public void updateBillController(Bill bill) {
+    public void updateBill(Bill bill) {
         billService.updateBillService(bill);
         System.out.println("Bill updated successfully.");
     }
@@ -60,7 +62,7 @@ public class BillController {
      *
      * @param billId The ID of the {@code Bill} to be deleted.
      */
-    public void deleteBillController(int billId) {
+    public void deleteBill(int billId) {
         billService.deleteBillService(billId);
         System.out.println("Bill deleted successfully.");
     }
@@ -68,7 +70,7 @@ public class BillController {
     /**
      * Retrieves and lists all {@code Bill} objects via the {@code BillService} and prints them to the console.
      */
-    public void listAllBillsController() {
+    public void listAllBills() {
         List<Bill> bills = billService.getAllBillsService();
         for (Bill bill : bills) {
             System.out.println(bill);
@@ -81,7 +83,7 @@ public class BillController {
      *
      * @param billId The ID of the {@code Bill} to retrieve.
      */
-    public void getBillDetailsController(int billId) {
+    public void getBillDetails(int billId) {
         Bill bill = billService.getBillByIdService(billId);
         if (bill != null) {
             System.out.println(bill);
@@ -98,7 +100,8 @@ public class BillController {
      */
     public static void main(String[] args) {
         // Setup repository and service for the BillController.
-        BillRepository billRepository = new BillRepository();
+        BillDAO billDAO = new BillDAOImpl(); // Ensure proper instantiation
+        BillRepository billRepository = new BillRepository(billDAO);
         BillService billService = new BillService(billRepository);
         BillController billController = new BillController(billService);
 
@@ -108,26 +111,26 @@ public class BillController {
         Bill bill2 = new Bill(2, "Internet", "Utilities", new Date(), 60.0, "Monthly", null, "N/A", true, "Pending", 2, null);
 
         // Add the bills to the system.
-        billController.addBillController(bill1);
-        billController.addBillController(bill2);
+        billController.addBill(bill1);
+        billController.addBill(bill2);
 
         // List all bills currently stored.
         System.out.println("Listing all bills:");
-        billController.listAllBillsController();
+        billController.listAllBills();
 
         // Update the amount of bill1 and save the changes.
         bill1.setAmount(120.0);
-        billController.updateBillController(bill1);
+        billController.updateBill(bill1);
 
         // Get and print the details of a specific bill by its ID.
         System.out.println("Details of bill ID 1:");
-        billController.getBillDetailsController(1);
+        billController.getBillDetails(1);
 
         // Delete bill2 by its ID.
-        billController.deleteBillController(2);
+        billController.deleteBill(2);
 
         // List all bills after the deletion of bill2.
         System.out.println("Listing all bills after deletion:");
-        billController.listAllBillsController();
+        billController.listAllBills();
     }
 }

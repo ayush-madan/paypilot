@@ -35,7 +35,7 @@ public class ReminderSettingsService {
      * @param reminderSettings The {@code ReminderSettings} object to be added.
      */
     public void addReminderService(ReminderSettings reminderSettings) {
-        reminderSettingsRepository.addReminderToRepo(reminderSettings);
+        reminderSettingsRepository.addReminder(reminderSettings);
     }
 
     /**
@@ -44,7 +44,7 @@ public class ReminderSettingsService {
      * @param reminderSettings The {@code ReminderSettings} object with updated information.
      */
     public void updateReminderService(ReminderSettings reminderSettings) {
-        reminderSettingsRepository.updateReminderInRepo(reminderSettings);
+        reminderSettingsRepository.updateReminder(reminderSettings);
     }
 
     /**
@@ -53,7 +53,7 @@ public class ReminderSettingsService {
      * @param reminderId The ID of the {@code ReminderSettings} to be deleted.
      */
     public void deleteReminderService(int reminderId) {
-        reminderSettingsRepository.deleteReminderFromRepo(reminderId);
+        reminderSettingsRepository.deleteReminder(reminderId);
     }
     
     /**
@@ -63,7 +63,7 @@ public class ReminderSettingsService {
      * @return An {@code Optional} containing the {@code ReminderSettings} object if found, or empty if not.
      */
     public Optional<ReminderSettings> getReminderByIdService(int reminderId) {
-        return reminderSettingsRepository.getReminderByIdFromRepo(reminderId);
+        return reminderSettingsRepository.getReminderById(reminderId);
     }
     
     /**
@@ -72,6 +72,6 @@ public class ReminderSettingsService {
      * @return A list of all {@code ReminderSettings} objects.
      */
     public List<ReminderSettings> getAllRemindersService() {
-        return reminderSettingsRepository.getAllRemindersFromRepo();
+        return reminderSettingsRepository.getAllReminders();
     }
 }

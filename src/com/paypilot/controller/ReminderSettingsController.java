@@ -1,37 +1,45 @@
-/**
- * The {@code ReminderSettingsController} class provides methods to manage {@code ReminderSettings},
- * such as adding, updating, deleting, retrieving by ID, and listing all reminders.
- * It interacts with the {@code ReminderSettingsService} to perform these operations and provides 
- * feedback to the user via console outputs.
- *
- * <p>Author: Anshul</p>
- * <p>Date: 09-08-2024</p>
- */
 package com.paypilot.controller;
 
 import com.paypilot.model.ReminderSettings;
 import com.paypilot.model.Bill;
 import com.paypilot.service.ReminderSettingsService;
+import com.paypilot.repo.ReminderSettingsDAO;
 import com.paypilot.repo.ReminderSettingsRepository;
+import com.paypilot.repo.ReminderSettingsDAOImpl;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The {@code ReminderSettingsController} class manages the interaction between the user interface
+ * and the {@code ReminderSettingsService} to handle various operations related to {@code ReminderSettings} objects.
+ * It provides methods for adding, updating, deleting, and retrieving reminder settings, as well as
+ * listing all reminders stored in the system.
+ *
+ * <p>This class is responsible for controlling the flow of data to and from the
+ * {@code ReminderSettingsService} and outputs messages to the user based on the outcome of these operations.</p>
+ *
+ * <p>Author: Anshul</p>
+ * <p>Date: 09-08-2024</p>
+ */
 public class ReminderSettingsController {
 
+    /**
+     * Dependency injected {@code ReminderSettingsService} instance to manage reminder settings.
+     */
     private ReminderSettingsService reminderSettingsService;
 
     /**
      * Constructs a {@code ReminderSettingsController} with the specified {@code ReminderSettingsService}.
      *
-     * @param reminderSettingsService The service layer responsible for reminder management.
+     * @param reminderSettingsService The service layer responsible for reminder settings management operations.
      */
     public ReminderSettingsController(ReminderSettingsService reminderSettingsService) {
         this.reminderSettingsService = reminderSettingsService;
     }
 
     /**
-     * Adds a new reminder using the {@code ReminderSettingsService} and provides feedback to the user.
+     * Handles adding a new {@code ReminderSettings} via the {@code ReminderSettingsService} and outputs a success message.
      *
      * @param reminderSettings The {@code ReminderSettings} object to be added.
      */
@@ -41,7 +49,7 @@ public class ReminderSettingsController {
     }
 
     /**
-     * Updates an existing reminder using the {@code ReminderSettingsService} and provides feedback to the user.
+     * Handles updating an existing {@code ReminderSettings} via the {@code ReminderSettingsService} and outputs a success message.
      *
      * @param reminderSettings The {@code ReminderSettings} object with updated information.
      */
@@ -51,9 +59,9 @@ public class ReminderSettingsController {
     }
 
     /**
-     * Deletes a reminder by its ID using the {@code ReminderSettingsService} and provides feedback to the user.
+     * Handles deleting a {@code ReminderSettings} by its ID via the {@code ReminderSettingsService} and outputs a success message.
      *
-     * @param reminderId The ID of the reminder to be deleted.
+     * @param reminderId The ID of the {@code ReminderSettings} to be deleted.
      */
     public void deleteReminder(int reminderId) {
         reminderSettingsService.deleteReminderService(reminderId);
@@ -61,22 +69,7 @@ public class ReminderSettingsController {
     }
 
     /**
-     * Retrieves a reminder by its ID using the {@code ReminderSettingsService} and prints its details.
-     * If the reminder is not found, a 'not found' message is printed.
-     *
-     * @param reminderId The ID of the reminder to retrieve.
-     */
-    public void getReminderById(int reminderId) {
-        Optional<ReminderSettings> reminder = reminderSettingsService.getReminderByIdService(reminderId);
-        if (reminder.isPresent()) {
-            System.out.println(reminder.get());
-        } else {
-            System.out.println("Reminder not found.");
-        }
-    }
-
-    /**
-     * Retrieves and lists all reminders using the {@code ReminderSettingsService} and prints them to the console.
+     * Retrieves and lists all {@code ReminderSettings} objects via the {@code ReminderSettingsService} and prints them to the console.
      */
     public void listAllReminders() {
         List<ReminderSettings> reminders = reminderSettingsService.getAllRemindersService();
@@ -86,18 +79,36 @@ public class ReminderSettingsController {
     }
 
     /**
-     * The main method to simulate operations on the {@code ReminderSettingsController}.
-     * Demonstrates adding, updating, retrieving, deleting, and listing reminders.
+     * Retrieves a {@code ReminderSettings} by its ID via the {@code ReminderSettingsService} and prints its details.
+     * If the {@code ReminderSettings} is not found, it outputs a 'not found' message.
+     *
+     * @param reminderId The ID of the {@code ReminderSettings} to retrieve.
+     */
+    public void getReminderDetails(int reminderId) {
+        Optional<ReminderSettings> reminder = reminderSettingsService.getReminderByIdService(reminderId);
+        if (reminder.isPresent()) {
+            System.out.println(reminder.get());
+        } else {
+            System.out.println("Reminder not found.");
+        }
+    }
+
+    /**
+     * Main method to simulate operations on the {@code ReminderSettingsController}.
+     * Demonstrates adding, updating, retrieving, deleting, and listing {@code ReminderSettings} objects.
      *
      * @param args Command-line arguments (not used).
      */
     public static void main(String[] args) {
-        // Setup repository and service for the ReminderSettingsController.
-        ReminderSettingsRepository reminderSettingsRepository = new ReminderSettingsRepository();
+        // Setup DAO and Repository
+        ReminderSettingsDAO reminderSettingsDAO = new ReminderSettingsDAOImpl(); // Ensure proper instantiation
+        ReminderSettingsRepository reminderSettingsRepository = new ReminderSettingsRepository(reminderSettingsDAO);
+
+        // Setup Service and Controller
         ReminderSettingsService reminderSettingsService = new ReminderSettingsService(reminderSettingsRepository);
         ReminderSettingsController reminderSettingsController = new ReminderSettingsController(reminderSettingsService);
 
-        // Create a sample bill.
+        // Create a sample Bill object.
         Bill bill = new Bill(1, "Electricity", "Utilities", new Date(), 100.0, "Monthly", null, "N/A", false, "Upcoming", 5, null);
 
         // Create sample ReminderSettings objects.
@@ -118,7 +129,7 @@ public class ReminderSettingsController {
 
         // Get and print the details of a specific reminder by its ID.
         System.out.println("Details of reminder ID 1:");
-        reminderSettingsController.getReminderById(1);
+        reminderSettingsController.getReminderDetails(1);
 
         // Delete reminder2 by its ID.
         reminderSettingsController.deleteReminder(2);
