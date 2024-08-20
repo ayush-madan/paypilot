@@ -3,9 +3,9 @@ package com.paypilot.controller;
 import com.paypilot.model.ReminderSettings;
 import com.paypilot.model.Bill;
 import com.paypilot.service.ReminderSettingsService;
-import com.paypilot.repo.ReminderSettingsDAO;
+import com.paypilot.repo.ReminderSettingsDAOInterface;
 import com.paypilot.repo.ReminderSettingsRepository;
-import com.paypilot.repo.ReminderSettingsDAOImpl;
+import com.paypilot.repo.ReminderSettingsDAO;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -101,7 +101,7 @@ public class ReminderSettingsController {
      */
     public static void main(String[] args) {
         // Setup DAO and Repository
-        ReminderSettingsDAO reminderSettingsDAO = new ReminderSettingsDAOImpl(); // Ensure proper instantiation
+        ReminderSettingsDAOInterface reminderSettingsDAO = new ReminderSettingsDAO(); // Ensure proper instantiation
         ReminderSettingsRepository reminderSettingsRepository = new ReminderSettingsRepository(reminderSettingsDAO);
 
         // Setup Service and Controller

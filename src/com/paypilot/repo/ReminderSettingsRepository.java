@@ -14,14 +14,14 @@ import java.util.Optional;
  */
 public class ReminderSettingsRepository {
 
-    private ReminderSettingsDAO reminderSettingsDAO; // DAO instance for database operations
+    private ReminderSettingsDAOInterface reminderSettingsDAO; // DAO instance for database operations
 
     /**
      * Constructs a {@code ReminderSettingsRepository} with the specified {@code ReminderSettingsDAO}.
      * 
      * @param reminderSettingsDAO The {@code ReminderSettingsDAO} instance used for database operations.
      */
-    public ReminderSettingsRepository(ReminderSettingsDAO reminderSettingsDAO) {
+    public ReminderSettingsRepository(ReminderSettingsDAOInterface reminderSettingsDAO) {
         this.reminderSettingsDAO = reminderSettingsDAO;
     }
 
