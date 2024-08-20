@@ -1,11 +1,3 @@
-package com.paypilot.repo;
-
-import com.paypilot.model.Bill;
-import java.io.File;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * The {@code BillDAOImpl} class implements the {@code BillDAO} interface.
  * It provides methods for performing CRUD operations on the {@code Bills} table in the database.
@@ -14,6 +6,16 @@ import java.util.List;
  * <p>Author: Anshul</p>
  * <p>Date: 20-08-2024</p>
  */
+
+package com.paypilot.repo;
+
+import com.paypilot.model.Bill;
+import java.io.File;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class BillDAO implements BillDAOInterface {
 
     /**
