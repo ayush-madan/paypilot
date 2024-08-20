@@ -56,11 +56,13 @@ public class BillManagerRepo {
 	// Retrieve all bills and filter based on provided criteria
     	List<Bill> allBills = b.getAllBills();
     	List<Bill> wantedBills = new ArrayList<>();
-    	for(Bill bills: allBills) {
-    		if((bills.getBillCategory().equals(category) || category.equalsIgnoreCase("All")) && 
-    		   bills.getDueDate().before(toDate) && bills.getDueDate().after(fromDate)&&
-    			bills.getPaymentStatus().equals(status)) {
-    			wantedBills.add(bills);
+    	if(allBills.size() != 0) {
+    		for(Bill bills: allBills) {
+    			if((bills.getBillCategory().equals(category) || category.equalsIgnoreCase("All")) && 
+    					bills.getDueDate().before(toDate) && bills.getDueDate().after(fromDate)&&
+    					bills.getPaymentStatus().equals(status)) {
+    				wantedBills.add(bills);
+    			}
     		}
     	}
        
@@ -68,15 +70,17 @@ public class BillManagerRepo {
     }
 
     /**
-     * Adds a new bill to the list of all bills.
+     * Adds a new bill to the database.
      * 
      * @param bill The bill to add
      */
     public void addNewBill(Bill bill) {
 	 // Retrieve the current list of all bills, add the new bill, and update the list
-    	List<Bill> allBills = b.getAllBills();
-    	allBills.add(bill);
-    	b.setAllBills(allBills);
+//    	List<Bill> allBills = b.getAllBills();
+//    	allBills.add(bill);
+    	
+    	// update the bill in the database;
+    	b.setBill(bill);
     }
 
       /**
@@ -88,10 +92,12 @@ public class BillManagerRepo {
 	// Filter bills to find those that are overdue
     	List<Bill> pendingBills = new ArrayList<>();
     	List<Bill> allBills = b.getAllBills();
-    	for(Bill bills: allBills) {
-    		if(bills.getPaymentStatus().equalsIgnoreCase("pending")||
-    				bills.getDueDate().before(new java.util.Date())) {
-    			pendingBills.add(bills);
+    	if(allBills.size() != 0) {
+    		for(Bill bills: allBills) {
+    			if(bills.getPaymentStatus().equalsIgnoreCase("pending")||
+    					bills.getDueDate().before(new java.util.Date())) {
+    				pendingBills.add(bills);
+    			}
     		}
     	}
         return pendingBills;
@@ -106,9 +112,11 @@ public class BillManagerRepo {
 	// Filter bills to find those that are marked as upcoming
     	List<Bill> upcomingBills = new ArrayList<>();
     	List<Bill> allBills = b.getAllBills();
-    	for(Bill bills: allBills) {
-    		if(bills.getPaymentStatus().equalsIgnoreCase("upcoming")) {
-    			upcomingBills.add(bills);
+    	if(allBills.size() != 0) {
+    		for(Bill bills: allBills) {
+    			if(bills.getPaymentStatus().equalsIgnoreCase("upcoming")) {
+    				upcomingBills.add(bills);
+    			}
     		}
     	}
         return upcomingBills;
@@ -122,14 +130,20 @@ public class BillManagerRepo {
      */
     public void snoozeBill(Bill bill, Date snoozeDate) {
 	// Update the due date of the specified bill
-    	List<Bill> allBills = b.getAllBills();
-    	for(Bill bills: allBills) {
-    		if(bills.getBillId() == bill.getBillId()) {
-    			bills.setDueDate(snoozeDate);
-    			break;
-    		}
-    	}
-    	b.setAllBills(allBills);
+//    	List<Bill> allBills = b.getAllBills();
+//    	for(Bill bills: allBills) {
+//    		if(bills.getBillId() == bill.getBillId()) {
+//    			bills.setDueDate(snoozeDate);
+//    			b.setBill(bills);
+//    			break;
+//    		}
+//    	}
+    	
+    	Bill tempBill = b.getBillbyId(bill.getBillId());
+    	if (tempBill != null) {
+            tempBill.setDueDate(snoozeDate);
+            b.setBill(tempBill);
+        }
     }
 
      /**
@@ -139,15 +153,21 @@ public class BillManagerRepo {
      */
     public void markBillAsPaid(Bill bill) {
         // Update the payment status of the specified bill to 'Paid' and set the paid date
-    	List<Bill> allBills = b.getAllBills();
-    	for(Bill bills: allBills) {
-    		if(bills.getBillId() == bill.getBillId()) {
-    			bills.setPaymentStatus("Paid");
-    			bills.setDueDate(null);
-    			break;
-    		}
+//    	List<Bill> allBills = b.getAllBills();
+//    	for(Bill bills: allBills) {
+//    		if(bills.getBillId() == bill.getBillId()) {
+//    			bills.setPaymentStatus("Paid");
+//    			bills.setDueDate(null);
+//    			b.setBill(bills);
+//    			break;
+//    		}
+//    	}
+    	Bill tempBill = b.getBillbyId(bill.getBillId());
+    	if (tempBill != null) {
+    		tempBill.setPaymentStatus("Paid");
+    		tempBill.setDueDate(null);
+    		b.setBill(tempBill);
     	}
-    	b.setAllBills(allBills);
     }
     
     //Retrieves a list of all bills
