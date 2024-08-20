@@ -11,6 +11,9 @@ import com.paypilot.model.BillManagerDAOInterface;
 /**
  * Implementation of the BillManagerDAOInterface that interacts with the database
  * to perform operations related to bills, such as retrieving, adding, and fetching bills by ID.
+ * Author : Aryman Srivastava
+ * Date : 20-08-2024
+ *
  */
 public class BillManagerDAO implements BillManagerDAOInterface {
 
