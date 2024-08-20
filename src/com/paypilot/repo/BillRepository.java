@@ -1,9 +1,3 @@
-package com.paypilot.repo;
-
-import com.paypilot.model.Bill;
-import com.paypilot.model.ReminderSettings;
-import java.util.List;
-
 /**
  * The {@code BillRepository} class is responsible for managing a collection of {@code Bill} objects.
  * It provides methods for adding, updating, deleting, and retrieving bills.
@@ -12,6 +6,14 @@ import java.util.List;
  * <p>Author: Anshul</p>
  * <p>Date: 09-08-2024</p>
  */
+
+package com.paypilot.repo;
+
+import com.paypilot.model.Bill;
+import com.paypilot.model.ReminderSettings;
+import java.util.List;
+
+
 public class BillRepository {
 
     private BillDAOInterface billDAO;
