@@ -1,8 +1,3 @@
-package com.paypilot.repo;
-
-import com.paypilot.model.Bill;
-import java.util.List;
-
 /**
  * The {@code BillDAO} interface defines methods for managing {@code Bill} objects
  * in the database. It provides operations for adding, updating, deleting, 
@@ -11,6 +6,12 @@ import java.util.List;
  * <p>Author: Anshul</p>
  * <p>Date: 20-08-2024</p>
  */
+package com.paypilot.repo;
+
+import com.paypilot.model.Bill;
+import java.util.List;
+
+
 public interface BillDAOInterface {
     
     /**
