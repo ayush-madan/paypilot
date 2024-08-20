@@ -6,7 +6,7 @@ import java.util.List;
  * Interface for managing Bill-related operations in the database.
  * Provides methods to retrieve, add, and fetch bills by their ID.
  * Author : Aryman Srivastava
- * Date : 20-08-2024
+ *  <p>Date: 09-08-2024</p>
  *
  */
 public interface BillManagerDAOInterface {
