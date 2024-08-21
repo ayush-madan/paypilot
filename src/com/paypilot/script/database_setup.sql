@@ -12,6 +12,7 @@ CREATE TABLE Bills (
     overdue_days NUMBER,         -- int in Java
     user_id NUMBER               -- int in Java
 );
+CREATE SEQUENCE bill_id_seq START WITH 1 INCREMENT BY 1; --incrementing the id of bill if not entered
 
 -- Insert Dummy Data
 INSERT INTO Bills (bill_id, bill_name, bill_category, due_date, amount, reminder_frequency, attachment, notes, is_recurring, payment_status, overdue_days, user_id)
