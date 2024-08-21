@@ -1,14 +1,19 @@
 /**
  * Implementation of the BillManagerDAOInterface that interacts with the database
  * to perform operations related to bills, such as retrieving, adding, and fetching bills by ID.
+ * This class encapsulates the database access logic and ensures that the application
+ * can perform CRUD operations on the Bill table in a consistent and efficient manner.
+ * 
  * Author: Aryman Srivastava
  * Date: 20-08-2024
  */
+
 package com.paypilot.repo;
 
 import java.io.File;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 
 import com.paypilot.model.Bill;
@@ -18,6 +23,9 @@ public class BillManagerDAO implements BillManagerDAOInterface {
 
     /**
      * Retrieves a list of all bills from the database.
+     * This method executes a SELECT query on the BILLS table and converts
+     * each row of the result set into a Bill object, which is then added to a list.
+     * The list is returned to the caller, providing access to all stored bills.
      * 
      * @return A List of Bill objects representing all bills in the database.
      */
@@ -52,16 +60,11 @@ public class BillManagerDAO implements BillManagerDAOInterface {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            // Closing resources to prevent memory leaks
             try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (con != null) {
-                    con.close();
-                }
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -72,6 +75,9 @@ public class BillManagerDAO implements BillManagerDAOInterface {
 
     /**
      * Adds a new bill to the database.
+     * This method prepares an INSERT statement to add a new record to the BILLS table,
+     * using the details from the provided Bill object. It ensures that all required
+     * fields are populated, and that the new bill is persisted correctly.
      * 
      * @param bill The Bill object containing the details to be added to the database.
      */
@@ -87,8 +93,8 @@ public class BillManagerDAO implements BillManagerDAOInterface {
             // Set parameters based on the Bill object
             pstmt.setString(1, bill.getBillName());
             pstmt.setString(2, bill.getBillCategory());
-            pstmt.setDate(3, new java.sql.Date(bill.getDueDate().getTime()));  // Converting java.util.Date to java.sql.Date
-            pstmt.setFloat(4, (float) bill.getAmount());
+            pstmt.setDate(3, new java.sql.Date(bill.getDueDate().getTime()));  // Convert java.util.Date to java.sql.Date
+            pstmt.setFloat(4, bill.getAmount());
             pstmt.setString(5, bill.getReminderFrequency());
             pstmt.setString(6, bill.getAttachment() != null ? bill.getAttachment().getPath() : null);
             pstmt.setString(7, bill.getNotes());
@@ -102,13 +108,10 @@ public class BillManagerDAO implements BillManagerDAOInterface {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            // Closing resources to prevent memory leaks
             try {
-                if (pstmt != null) {
-                    pstmt.close();
-                }
-                if (con != null) {
-                    con.close();
-                }
+                if (pstmt != null) pstmt.close();
+                if (con != null) con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -117,6 +120,8 @@ public class BillManagerDAO implements BillManagerDAOInterface {
 
     /**
      * Retrieves a specific bill from the database by its ID.
+     * This method executes a SELECT query to find a bill with the given ID.
+     * If a matching record is found, it is converted into a Bill object and returned.
      * 
      * @param id The unique identifier of the bill to retrieve.
      * @return The Bill object corresponding to the provided ID, or null if no bill is found.
@@ -152,16 +157,11 @@ public class BillManagerDAO implements BillManagerDAOInterface {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            // Closing resources to prevent memory leaks
             try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (pstmt != null) {
-                    pstmt.close();
-                }
-                if (con != null) {
-                    con.close();
-                }
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (con != null) con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -170,4 +170,3 @@ public class BillManagerDAO implements BillManagerDAOInterface {
         return bill;
     }
 }
-
