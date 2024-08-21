@@ -22,8 +22,8 @@ import com.paypilot.service.BillManagerService;
  * perform as expected under different scenarios.
  * </p>
  * 
- * @author Esha
- * @date 2024-08-21
+ * Author: Esha Thakur
+ * Date: 20-08-2024
  */
 public class BillManagerServiceTest {
 
