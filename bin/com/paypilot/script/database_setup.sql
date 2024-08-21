@@ -12,16 +12,17 @@ CREATE TABLE Bills (
     overdue_days NUMBER,         -- int in Java
     user_id NUMBER               -- int in Java
 );
+CREATE SEQUENCE bill_id_seq START WITH 1 INCREMENT BY 1; --incrementing the id of bill if not entered
 
 -- Insert Dummy Data
 INSERT INTO Bills (bill_id, bill_name, bill_category, due_date, amount, reminder_frequency, attachment, notes, is_recurring, payment_status, overdue_days, user_id)
-VALUES (1, 'Electricity Bill', 'Utilities', TO_DATE('2023-09-15', 'YYYY-MM-DD'), 120.50, 'Monthly', EMPTY_BLOB(), 'Pay before 20th', 'Yes', 'Pending', 5, 101);
+VALUES (1, 'Electricity Bill', 'Utilities', TO_DATE('2023-09-15', 'YYYY-MM-DD'), 120.50, 'Monthly', null , 'Pay before 20th', 'Yes', 'Pending', 5, 101);
 
 INSERT INTO Bills (bill_id, bill_name, bill_category, due_date, amount, reminder_frequency, attachment, notes, is_recurring, payment_status, overdue_days, user_id)
-VALUES (2, 'Water Bill', 'Utilities', TO_DATE('2023-09-20', 'YYYY-MM-DD'), 80.75, 'Monthly', EMPTY_BLOB(), 'Due soon', 'No', 'Paid', 0, 102);
+VALUES (2, 'Water Bill', 'Utilities', TO_DATE('2023-09-20', 'YYYY-MM-DD'), 80.75, 'Monthly', null , 'Due soon', 'No', 'Paid', 0, 102);
 
 INSERT INTO Bills (bill_id, bill_name, bill_category, due_date, amount, reminder_frequency, attachment, notes, is_recurring, payment_status, overdue_days, user_id)
-VALUES (3, 'Internet Bill', 'Communications', TO_DATE('2023-09-10', 'YYYY-MM-DD'), 45.99, 'Monthly', EMPTY_BLOB(), 'Autopay activated', 'Yes', 'Pending', 2, 103);
+VALUES (3, 'Internet Bill', 'Communications', TO_DATE('2023-09-10', 'YYYY-MM-DD'), 45.99, 'Monthly', null, 'Autopay activated', 'Yes', 'Pending', 2, 103);
 
 CREATE TABLE ReminderSettings (
     reminder_id NUMBER PRIMARY KEY,  -- int in Java

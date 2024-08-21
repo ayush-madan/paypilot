@@ -10,6 +10,7 @@ package com.paypilot.test;
 
 import com.paypilot.model.Bill;
 import com.paypilot.model.ReminderSettings;
+import com.paypilot.repo.ReminderSettingsDAO;
 import com.paypilot.repo.ReminderSettingsRepository;
 import com.paypilot.service.ReminderSettingsService;
 import org.junit.Before;
@@ -27,7 +28,8 @@ import static org.junit.Assert.*;
  * including adding, updating, deleting, and retrieving reminder settings.
  */
 public class ReminderSettingsTest {
-
+	
+	private ReminderSettingsDAO reminderSettingsDAO;
     private ReminderSettingsService reminderSettingsService;
     private ReminderSettingsRepository reminderSettingsRepository;
 
@@ -38,7 +40,8 @@ public class ReminderSettingsTest {
     @Before
     public void setUp() {
         // Initialize the repository and service before each test
-        reminderSettingsRepository = new ReminderSettingsRepository();
+    	reminderSettingsDAO = new ReminderSettingsDAO();
+        reminderSettingsRepository = new ReminderSettingsRepository(reminderSettingsDAO);
         reminderSettingsService = new ReminderSettingsService(reminderSettingsRepository);
     }
 

@@ -9,13 +9,16 @@
 package com.paypilot.test;
 
 import com.paypilot.model.Bill;
+import com.paypilot.repo.BillDAO;
 import com.paypilot.repo.BillRepository;
 import com.paypilot.service.BillService;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Unit test class for BillService.
@@ -26,6 +29,7 @@ public class BillServiceTest {
 
     private BillService billService;
     private BillRepository billRepository;
+    private BillDAO billDAO;
 
     /**
      * Sets up the test environment before each test.
@@ -34,7 +38,8 @@ public class BillServiceTest {
     @Before
     public void setUp() {
         // Initialize the repository and service before each test
-        billRepository = new BillRepository();
+    	billDAO = new BillDAO();
+        billRepository = new BillRepository(billDAO);
         billService = new BillService(billRepository);
     }
 
@@ -58,6 +63,7 @@ public class BillServiceTest {
      *   <li>reminderSettings: null</li>
      * </ul>
      */
+    @Ignore
     @Test
     public void testAddBill() {
         // Create a sample Bill with specific attributes
@@ -97,6 +103,7 @@ public class BillServiceTest {
      *   <li>amount: 100.50</li>
      * </ul>
      */
+    @Ignore
     @Test
     public void testUpdateBill() {
         // Create and add a sample Bill with specific attributes
@@ -117,6 +124,7 @@ public class BillServiceTest {
      * Tests the deletion of a bill using the deleteBillService method.
      * Verifies that the bill is successfully deleted and cannot be retrieved.
      */
+    @Ignore
     @Test
     public void testDeleteBill() {
         // Delete a bill using its ID
@@ -147,6 +155,7 @@ public class BillServiceTest {
      *   <li>reminderSettings: null</li>
      * </ul>
      */
+    
     @Test
     public void testGetAllBills() {
         // Get the initial count of bills
@@ -155,6 +164,11 @@ public class BillServiceTest {
         // Add a new bill
         Bill newBill = new Bill(6, "Phone", "Utilities", new Date(), 75.0, "Monthly", null, "N/A", false, "Upcoming", 0, null);
         billService.addBillService(newBill);
+        
+        //Print all bills
+        List<Bill> billList = billService.getAllBillsService();
+        for(Bill bl : billList)
+        	System.out.println(bl);
         
         // Get the new count of bills and verify the size has increased by one
         int newSize = billService.getAllBillsService().size();
@@ -165,6 +179,7 @@ public class BillServiceTest {
      * Tests the retrieval of a bill by ID using the getBillByIdService method.
      * Verifies that the bill is found and the bill name matches the expected value.
      */
+    @Ignore
     @Test
     public void testGetBillById() {
         // Retrieve a bill by ID

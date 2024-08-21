@@ -94,7 +94,7 @@ public class BillManagerDAO implements BillManagerDAOInterface {
             pstmt.setString(1, bill.getBillName());
             pstmt.setString(2, bill.getBillCategory());
             pstmt.setDate(3, new java.sql.Date(bill.getDueDate().getTime()));  // Convert java.util.Date to java.sql.Date
-            pstmt.setFloat(4, bill.getAmount());
+            pstmt.setFloat(4, (float)bill.getAmount());
             pstmt.setString(5, bill.getReminderFrequency());
             pstmt.setString(6, bill.getAttachment() != null ? bill.getAttachment().getPath() : null);
             pstmt.setString(7, bill.getNotes());
