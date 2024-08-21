@@ -1,236 +1,283 @@
-/*
- * This class contains unit tests for the BillManagerService class, ensure that the BillManagerService behaves
- * as expected by verifying the correctness of its methods using predefined data.
- * 
- * Author: Ayush
- * Date: 09-08-2024
-
- */
 package com.paypilot.test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.util.*;
-
-import org.junit.Before;
-import org.junit.Test;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import com.paypilot.model.Bill;
 import com.paypilot.repo.BillManagerRepo;
 import com.paypilot.service.BillManagerService;
-import com.paypilot.service.BillService;
 
+/**
+ * Test class for BillManagerService.
+ * <p>
+ * This class contains unit tests for the BillManagerService class, which manages
+ * various operations related to bills, including adding, retrieving, snoozing, 
+ * and marking bills as paid. Each test ensures that the methods in BillManagerService
+ * perform as expected under different scenarios.
+ * </p>
+ * 
+ * Author: Esha Thakur
+ * Date: 20-08-2024
+ */
 public class BillManagerServiceTest {
 
-	private BillManagerService billManagerService;
-	
-	
-	/**
-	 * Sets up the test environment by initializing the {@link BillManagerService} instance.
-	 * This method is executed before each test method to ensure that the {@link BillManagerService}
-	 * is properly set up with a predefined set of demo bills for testing purposes.
-	 * */
-    @Before
-    public void setUp() {
-        billManagerService = new BillManagerService();
+    private BillManagerService billManagerService;
+    private BillManagerRepo billManagerRepo;
 
-        // Initialize with some demo bills
-        billManagerService.addNewBillService("Electricity Bill", "Utilities", new Date(2024-1900, 7, 15), 100.50, "Monthly", null, "Pay before due date", false, "Upcoming", 0);
-        billManagerService.addNewBillService("Internet Bill", "Internet Charges", new Date(2024-1900, 7, 10), 60.00, "Monthly", null, "", true, "Paid", 0);
-        billManagerService.addNewBillService("Rent", "House Rent", new Date(2024-1900, 6, 30), 1200.00, "Monthly", null, "Rent for June", false, "Overdue", 5);
-        billManagerService.addNewBillService("Groceries", "Groceries", new Date(2024-1900, 7, 5), 200.00, "Weekly", null, "Weekly groceries", false, "Paid", 0);
-    }
-    
     /**
-     * Tests the {@link BillManagerService#getBillsOverviewService(String, Date, Date, String)} method.
-     *
-     * <p>This test checks if the method correctly retrieves bills based on the category, date range,
-     * and payment status. It uses the demo data from {@link #setUp()}.</p>
-     *
-     * <p>The test verifies:</p>
-     * <ul>
-     *     <li>That the returned list is not null.</li>
-     *     <li>That all bills in the list have the correct status and category.</li>
-     * </ul>
+     * Sets up the test environment before each test case.
+     * <p>
+     * This method initializes a mock implementation of BillManagerRepo that 
+     * stores bills in-memory. It also initializes the BillManagerService with
+     * this mock repository. This setup allows us to test the service methods
+     * without relying on a real database.
+     * </p>
      */
-	@Test
-	public void testGetBillsOverviewService() {
-		// Testing using the first entry as per setUp() method
-		String category = "Utilities";
-		Date fromDate = new Date(2024-1900, 7, 14);
-		Date toDate = new Date(2024-1900, 7, 16);
-		String status = "Upcoming";
-		
-		List<Bill> billList =  billManagerService.getBillsOverviewService(category, fromDate, toDate, status);
-		
-		// Assert that function call does not return a null value, if the entry exists
-		assertNotNull("Returned null when requesting overview of an existing bill", billList);
+    @BeforeEach
+    public void setUp() {
+        // Initialize BillManagerRepo with an in-memory implementation for testing
+        billManagerRepo = new BillManagerRepo() {
+            private final List<Bill> bills = new ArrayList<>();
 
-		
-		// Check if all Bill objects in the list have Payment Status as "Upcoming" and category as "Utilities"
-		for (Bill bill : billList) {
-            assertEquals("Bill status is not 'Upcoming'", "Upcoming", bill.getPaymentStatus());
-            assertEquals("Bill category is not 'Utilities'", "Utilities", bill.getBillCategory());
-        }		
-	}
-	
-	
-	/**
-	 * Tests the {@link BillManagerService#addNewBillService(String, String, Date, double, String, Object, String, boolean, String, int)} method.
-	 *
-	 * <p>This test verifies that a new bill is added correctly to the service.</p>
-	 *
-	 * <p>The test checks:</p>
-	 * <ul>
-	 *     <li>That the size of the bill list increases by one after adding a new bill.</li>
-	 *     <li>That the newly added bill has the correct name.</li>
-	 * </ul>
-	 */
-	@Test
-	public void testAddNewBillService() {
-		int dbSize = billManagerService.getAllBillsService().size();
-		
-		// Adding new bill
-		billManagerService.addNewBillService("Water", "Utilities", new Date(), 45.0, "Monthly", null, "N/A", true, "Upcoming", 0);
-		
-		//Check if the size of the database increased by one
-		List<Bill> allBills = billManagerService.getAllBillsService();
-		int newDbSize = allBills.size();
-		assertEquals("Failed to add a new bill", dbSize + 1, newDbSize);
-		
-		//Check if the newly added bill has the correct billName
-		Bill newBill = allBills.get(newDbSize - 1);
-		assertEquals("Failed to add a new bill", "Water", newBill.getBillName());
-	}
-	
-	
-	/**
-	 * Tests the {@link BillManagerService#getOverdueBillsService(String, String, Date, Date)} method.
-	 *
-	 * <p>This test verifies if the method correctly retrieves overdue bills based on category, name, and date range.</p>
-	 *
-	 * <p>The test checks:</p>
-	 * <ul>
-	 *     <li>The returned list is not null.</li>
-	 *     <li>All bills in the list have overdueDays > 0.</li>
-	 * </ul>
-	 */
-	@Test
-	public void testGetOverdueBillsService() {
-		// Testing using the third entry as per setUp() method
-		String category = "House Rent";
-		String name = "Rent";
-		Date dateFrom = new Date(2024-1900, 6, 29);
-		Date dateTo = new Date(2024-1900, 7, 1);
-		
-		List<Bill> billList =  billManagerService.getOverdueBillsService( category, name, dateTo, dateFrom);
-		
-		// Assert that function call does not return a null value, if the entry exists
-		assertNotNull("Returned null for an existing overdue bill", billList);
-		
-		// Check if all Bill objects in the list have overdueDays > 0
-		for (Bill bill : billList) {
-			assertTrue("Not all bills have overdueDays > 0", bill.getOverdueDays() > 0);
-		}		
-	}
-	
-	
-	/**
-	 * Tests the {@link BillManagerService#getUpcomingBillsService(String, String, Date, Date)} method.
-	 *
-	 * <p>This test verifies that the method correctly retrieves upcoming bills based on the category,
-	 * name, and date range. It uses demo data from {@link #setUp()}.</p>
-	 *
-	 * <p>The test checks:</p>
-	 * <ul>
-	 *     <li>The returned list is not null.</li>
-	 *     <li>All bills have the status "Upcoming".</li>
-	 * </ul>
-	 */
-	@Test
-	public void testGetUpcomingBillsService() {
-		// Testing using the first entry as per setUp() method
-		String category = "Utilities";
-		String name = "Electricity Bill";
-		Date dateFrom = new Date(2024-1900, 7, 14);
-		Date dateTo = new Date(2024-1900, 7, 16);
-		
-		List<Bill> billList =  billManagerService.getUpcomingBillsService(category, name, dateTo, dateFrom);
-		
-		// Assert that function call does not return a null value, if the entry exists
-		assertNotNull("Returned null when requesting overview of an existing bill", billList);
+            @Override
+            public List<Bill> getAllBills() {
+                // Returns a copy of the current list of bills
+                return new ArrayList<>(bills);
+            }
 
-		
-		// Check if all Bill objects in the list have Payment Status as "Upcoming"
-		for (Bill bill : billList) {
-            assertEquals("Bill status is not 'Upcoming'", "Upcoming", bill.getPaymentStatus());
-        }
-	}
-	
-	
-	/**
-	 * Tests the {@link BillManagerService#snoozeBillService(Date, int)} method.
-	 *
-	 * <p>This test verifies that snoozing a bill updates its due date correctly. It uses the second
-	 * demo entry from the {@link #setUp()} method.</p>
-	 *
-	 * <p>The test:</p>
-	 * <ul>
-	 *     <li>Calls snoozeBillService with a new due date and the bill ID.</li>
-	 *     <li>Retrieves the bill and checks that its due date matches the snooze date.</li>
-	 * </ul>
-	 */
-	@Test
-	public void testSnoozeBillService() {
-		// Testing using the second entry as per setUp() method
-		int id = 2;
-		Date snoozeDate = new Date(2024-1900, 7, 12);
-		billManagerService.snoozeBillService(snoozeDate, id);
-		
-		Bill snoozedBill = null;
-		
-		List<Bill> allBills = billManagerService.getAllBillsService();
-		for( Bill bill : allBills) {
-			if (bill.getBillId() == id) {
-				snoozedBill = bill;
-				break;
-			}
-		}		
-		Date snoozedBillDueDate = snoozedBill.getDueDate();
-		assertEquals("Bill due date did not change", snoozeDate, snoozedBillDueDate);
-	}
-	
-	
-	/**
-	 * Tests the {@link BillManagerService#markBillAsPaidService(int)} method.
-	 *
-	 * <p>This test verifies that the method correctly updates the payment status of a bill to "Paid".</p>
-	 *
-	 * <p>The test:</p>
-	 * <ul>
-	 *     <li>Marks a bill (with ID 1) as paid.</li>
-	 *     <li>Retrieves the updated bill and checks that its payment status is "Paid".</li>
-	 * </ul>
-	 */
-	@Test
-	public void testMarkBillAsPaidService() {
-		// Testing using the first entry as per setUp() method
-		int id = 1;
-		billManagerService.markBillAsPaidService(id);
-		
-		Bill modBill = null;
-		
-		List<Bill> allBills = billManagerService.getAllBillsService();
-		for( Bill bill : allBills) {
-			if (bill.getBillId() == id) {
-				modBill = bill;
-				break;
-			}
-		}
-		
-		String modBillPaymentStatus = modBill.getPaymentStatus();
-		assertEquals("Bill not marked as paid", "Paid", modBillPaymentStatus);
-	}
-	
+            @Override
+            public void addNewBill(Bill bill) {
+                // Adds a new bill to the in-memory list
+                bills.add(bill);
+            }
 
+            @Override
+            public List<Bill> getBillsOverview(String category, Date fromDate, Date toDate, String status) {
+                // Filters bills based on category and status for testing
+                List<Bill> result = new ArrayList<>();
+                for (Bill b : bills) {
+                    if ((category == null || b.getBillCategory().equalsIgnoreCase(category)) &&
+                        (status == null || b.getPaymentStatus().equalsIgnoreCase(status))) {
+                        result.add(b);
+                    }
+                }
+                return result;
+            }
+
+            @Override
+            public List<Bill> getOverdueBills() {
+                // Returns all bills as a placeholder for actual overdue bill logic
+                return new ArrayList<>(bills);
+            }
+
+            @Override
+            public List<Bill> getUpcomingBills() {
+                // Returns all bills as a placeholder for actual upcoming bill logic
+                return new ArrayList<>(bills);
+            }
+
+            @Override
+            public void snoozeBill(Bill bill, Date snoozeDate) {
+                // Updates the bill's due date to the snooze date
+                bill.setDueDate(snoozeDate);
+            }
+
+            @Override
+            public void markBillAsPaid(Bill bill) {
+                // Sets the bill's payment status to "Paid"
+                bill.setPaymentStatus("Paid");
+            }
+
+            @Override
+            public Bill createNewBill(int billId, String name, String category, Date dueDate, double amount, String reminderFrequency, File attachment, String note, boolean isRecurring, String paymentStatus, int overDueDays, ReminderSettings rs) {
+                // Creates a new Bill object with the provided parameters
+                return new Bill(billId, name, category, dueDate, amount, reminderFrequency, attachment, note, isRecurring, paymentStatus, overDueDays, rs);
+            }
+        };
+
+        // Initialize BillManagerService with the mock repository
+        billManagerService = new BillManagerService();
+        billManagerService.br = billManagerRepo; // Inject the mock repo into the service
+    }
+
+    /**
+     * Tests the addNewBillService method of BillManagerService.
+     * <p>
+     * This test case verifies that a new bill can be added to the service. It checks
+     * whether the bill is correctly added to the in-memory repository by validating
+     * the bill's attributes after addition.
+     * </p>
+     */
+    @Test
+    public void testAddNewBillService() {
+        // Arrange: Prepare test data
+        String name = "Test Bill";
+        String category = "Utilities";
+        Date dueDate = new Date();
+        double amount = 100.50;
+        String reminderFrequency = "Monthly";
+        File attachment = new File("path/to/attachment");
+        String note = "This is a test bill.";
+        boolean isRecurring = true;
+        String paymentStatus = "Pending";
+        int overDueDays = 5;
+        
+        // Act: Call the service method to add a new bill
+        billManagerService.addNewBillService(name, category, dueDate, amount, reminderFrequency, attachment, note, isRecurring, paymentStatus, overDueDays);
+        
+        // Assert: Verify that the bill has been added correctly
+        List<Bill> bills = billManagerRepo.getAllBills();
+        assertEquals(1, bills.size(), "The bill should be added to the repository.");
+        Bill bill = bills.get(0);
+        assertEquals(name, bill.getBillName(), "The bill name should match.");
+        assertEquals(category, bill.getBillCategory(), "The bill category should match.");
+        assertEquals(amount, bill.getAmount(), "The bill amount should match.");
+    }
+
+    /**
+     * Tests the getBillsOverviewService method of BillManagerService.
+     * <p>
+     * This test case checks whether bills are retrieved correctly based on the provided
+     * category and status. It validates that the service correctly filters the bills
+     * from the repository based on these parameters.
+     * </p>
+     */
+    @Test
+    public void testGetBillsOverviewService() {
+        // Arrange: Add a test bill to the repository
+        Date now = new Date();
+        Bill bill = new Bill(1, "Test Bill", "Utilities", now, 100.50, "Monthly", null, "Test note", false, "Pending", 0, null);
+        billManagerRepo.addNewBill(bill);
+        
+        // Act: Call the service method to get bills overview
+        List<Bill> result = billManagerService.getBillsOverviewService("Utilities", null, null, "Pending");
+        
+        // Assert: Verify that the correct bill is retrieved
+        assertNotNull(result, "The result should not be null.");
+        assertEquals(1, result.size(), "There should be one bill in the result.");
+        assertEquals("Test Bill", result.get(0).getBillName(), "The bill name should match.");
+    }
+
+    /**
+     * Tests the getOverdueBillsService method of BillManagerService.
+     * <p>
+     * This test case verifies that overdue bills are correctly retrieved. It ensures
+     * that bills marked as overdue are included in the result, based on the implementation
+     * of the `getOverdueBills` method in the mock repository.
+     * </p>
+     */
+    @Test
+    public void testGetOverdueBillsService() {
+        // Arrange: Add an overdue bill to the repository
+        Date now = new Date();
+        Bill bill = new Bill(1, "Overdue Bill", "Utilities", now, 100.50, "Monthly", null, "Overdue", false, "Pending", 1, null);
+        billManagerRepo.addNewBill(bill);
+        
+        // Act: Call the service method to get overdue bills
+        List<Bill> result = billManagerService.getOverdueBillsService(null, null, now, now);
+        
+        // Assert: Verify that the overdue bill is included in the result
+        assertNotNull(result, "The result should not be null.");
+        assertEquals(1, result.size(), "There should be one overdue bill in the result.");
+        assertEquals("Overdue Bill", result.get(0).getBillName(), "The bill name should match.");
+    }
+
+    /**
+     * Tests the getUpcomingBillsService method of BillManagerService.
+     * <p>
+     * This test case ensures that upcoming bills are correctly retrieved from the repository.
+     * It verifies that bills which are not overdue are included in the result based on
+     * the implementation of the `getUpcomingBills` method in the mock repository.
+     * </p>
+     */
+    @Test
+    public void testGetUpcomingBillsService() {
+        // Arrange: Add an upcoming bill to the repository
+        Date now = new Date();
+        Bill bill = new Bill(1, "Upcoming Bill", "Utilities", now, 100.50, "Monthly", null, "Upcoming", false, "Pending", 0, null);
+        billManagerRepo.addNewBill(bill);
+        
+        // Act: Call the service method to get upcoming bills
+        List<Bill> result = billManagerService.getUpcomingBillsService(null, null, now, now);
+        
+        // Assert: Verify that the upcoming bill is included in the result
+        assertNotNull(result, "The result should not be null.");
+        assertEquals(1, result.size(), "There should be one upcoming bill in the result.");
+        assertEquals("Upcoming Bill", result.get(0).getBillName(), "The bill name should match.");
+    }
+
+    /**
+     * Tests the snoozeBillService method of BillManagerService.
+     * <p>
+     * This test case checks that the due date of a bill can be successfully updated
+     * to a new snooze date. It verifies that the service correctly updates the bill's
+     * due date when the snooze operation is performed.
+     * </p>
+     */
+    @Test
+    public void testSnoozeBillService() {
+        // Arrange: Add a bill to the repository and set a snooze date
+        Date now = new Date();
+        Date snoozeDate = new Date(now.getTime() + 1000000000L); // Some future date
+        Bill bill = new Bill(1, "Bill to Snooze", "Utilities", now, 100.50, "Monthly", null, "Snooze Test", false, "Pending", 0, null);
+        billManagerRepo.addNewBill(bill);
+        
+        // Act: Call the service method to snooze the bill
+        billManagerService.snoozeBillService(snoozeDate, 1);
+        
+        // Assert: Verify that the bill's due date has been updated
+        Bill updatedBill = billManagerRepo.getAllBills().get(0);
+        assertEquals(snoozeDate, updatedBill.getDueDate(), "The due date should be updated to the snooze date.");
+    }
+
+    /**
+     * Tests the markBillAsPaidService method of BillManagerService.
+     * <p>
+     * This test case ensures that a bill's payment status is correctly updated to "Paid".
+     * It verifies that the service method correctly modifies the payment status of the
+     * specified bill.
+     * </p>
+     */
+    @Test
+    public void testMarkBillAsPaidService() {
+        // Arrange: Add a bill to the repository with a "Pending" status
+        Date now = new Date();
+        Bill bill = new Bill(1, "Bill to Mark Paid", "Utilities", now, 100.50, "Monthly", null, "Paid Test", false, "Pending", 0, null);
+        billManagerRepo.addNewBill(bill);
+        
+        // Act: Call the service method to mark the bill as paid
+        billManagerService.markBillAsPaidService(1);
+        
+        // Assert: Verify that the bill's payment status has been updated to "Paid"
+        Bill updatedBill = billManagerRepo.getAllBills().get(0);
+        assertEquals("Paid", updatedBill.getPaymentStatus(), "The payment status should be updated to 'Paid'.");
+    }
+
+    /**
+     * Tests the getAllBillsService method of BillManagerService.
+     * <p>
+     * This test case verifies that all bills are correctly retrieved from the repository.
+     * It checks that the service returns all bills currently stored in the repository.
+     * </p>
+     */
+    @Test
+    public void testGetAllBillsService() {
+        // Arrange: Add a test bill to the repository
+        Bill bill = new Bill(1, "Test Bill", "Utilities", new Date(), 100.50, "Monthly", null, "Test note", false, "Pending", 0, null);
+        billManagerRepo.addNewBill(bill);
+        
+        // Act: Call the service method to retrieve all bills
+        List<Bill> result = billManagerService.getAllBillsService();
+        
+        // Assert: Verify that the bill is included in the result
+        assertNotNull(result, "The result should not be null.");
+        assertEquals(1, result.size(), "There should be one bill in the result.");
+        assertEquals("Test Bill", result.get(0).getBillName(), "The bill name should match.");
+    }
 }
