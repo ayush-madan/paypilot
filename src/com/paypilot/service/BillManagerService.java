@@ -20,7 +20,7 @@ import com.paypilot.model.ReminderSettings;
 import com.paypilot.repo.BillManagerRepo;
 
 public class BillManagerService {
-	BillManagerRepo br = new BillManagerRepo();
+	public BillManagerRepo br = new BillManagerRepo();
 	
 	
 	/**
