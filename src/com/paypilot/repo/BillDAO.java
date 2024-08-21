@@ -1,12 +1,11 @@
 /**
- * The {@code BillDAOImpl} class implements the {@code BillDAO} interface.
+ * The {@code BillDAO} class implements the {@code BillDAOInterface} interface.
  * It provides methods for performing CRUD operations on the {@code Bills} table in the database.
  * This includes adding, updating, deleting, and retrieving bills.
  * 
  * <p>Author: Anshul</p>
  * <p>Date: 20-08-2024</p>
  */
-
 package com.paypilot.repo;
 
 import com.paypilot.model.Bill;
@@ -15,11 +14,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class BillDAO implements BillDAOInterface {
 
     /**
      * Adds a new bill to the database.
+     * 
+     * <p>Business Logic:</p>
+     * This method inserts a new record into the {@code Bills} table. It ensures that a bill
+     * with the specified attributes is added to the database. Proper handling of attachment and
+     * due date is implemented to ensure correct data storage.
      * 
      * @param bill The {@code Bill} object to be added to the database.
      * @throws SQLException If a database access error occurs.
@@ -51,6 +54,11 @@ public class BillDAO implements BillDAOInterface {
     /**
      * Updates an existing bill in the database.
      * 
+     * <p>Business Logic:</p>
+     * This method updates an existing record in the {@code Bills} table. It modifies the bill
+     * attributes as specified. This ensures that the latest information is reflected in the database,
+     * including handling changes in the attachment and due date.
+     * 
      * @param bill The {@code Bill} object containing updated information.
      * @throws SQLException If a database access error occurs.
      * @throws ClassNotFoundException If the JDBC driver class is not found.
@@ -81,6 +89,10 @@ public class BillDAO implements BillDAOInterface {
     /**
      * Deletes a bill from the database based on its ID.
      * 
+     * <p>Business Logic:</p>
+     * This method removes a bill record from the {@code Bills} table using the provided bill ID.
+     * It ensures that no orphan records are left in the database. The bill ID must be valid.
+     * 
      * @param billId The ID of the bill to be deleted.
      * @throws SQLException If a database access error occurs.
      * @throws ClassNotFoundException If the JDBC driver class is not found.
@@ -98,6 +110,10 @@ public class BillDAO implements BillDAOInterface {
 
     /**
      * Retrieves a bill by its ID.
+     * 
+     * <p>Business Logic:</p>
+     * This method fetches a bill record from the {@code Bills} table using the specified bill ID.
+     * It ensures that the correct bill information is retrieved. If the bill is not found, it returns {@code null}.
      * 
      * @param billId The ID of the bill to retrieve.
      * @return The {@code Bill} object with the specified ID, or {@code null} if not found.
@@ -136,6 +152,10 @@ public class BillDAO implements BillDAOInterface {
     /**
      * Retrieves all bills from the database.
      * 
+     * <p>Business Logic:</p>
+     * This method retrieves all records from the {@code Bills} table. It returns a list of all bill
+     * objects currently stored in the database. This is useful for displaying or processing all bills.
+     * 
      * @return A list of all {@code Bill} objects.
      * @throws SQLException If a database access error occurs.
      * @throws ClassNotFoundException If the JDBC driver class is not found.
@@ -170,6 +190,11 @@ public class BillDAO implements BillDAOInterface {
 
     /**
      * Retrieves bills by their category.
+     * 
+     * <p>Business Logic:</p>
+     * This method fetches bill records from the {@code Bills} table based on the specified category.
+     * It ensures that only bills matching the given category are returned. This is useful for filtering
+     * bills by their category.
      * 
      * @param category The category to search for.
      * @return A list of {@code Bill} objects that match the specified category.

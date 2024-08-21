@@ -1,5 +1,5 @@
 /**
- * The {@code ReminderSettingsDAOImpl} class implements the {@code ReminderSettingsDAO} interface
+ * The {@code ReminderSettingsDAO} class implements the {@code ReminderSettingsDAOInterface} interface
  * and provides methods for managing {@code ReminderSettings} entities in the data source.
  * It uses a {@code Connection} for database operations and an optional {@code BillDAO} for fetching {@code Bill} objects.
  * 
@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
 
     private Connection connection;
@@ -24,12 +23,20 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
     
     /**
      * Default constructor.
+     * 
+     * <p>Business Logic:</p>
+     * Initializes a new instance of {@code ReminderSettingsDAO}. The connection and billDAO 
+     * must be set using setter methods or through constructors before using this instance.
      */
     public ReminderSettingsDAO() {
     }
 
     /**
-     * Constructs a {@code ReminderSettingsDAOImpl} with the specified {@code BillDAO}.
+     * Constructs a {@code ReminderSettingsDAO} with the specified {@code BillDAO}.
+     * 
+     * <p>Business Logic:</p>
+     * Initializes a new instance of {@code ReminderSettingsDAO} with a {@code BillDAO} instance.
+     * This allows the DAO to use the {@code BillDAO} for operations related to {@code Bill} objects.
      * 
      * @param billDAO The {@code BillDAO} instance used to fetch {@code Bill} objects.
      */
@@ -38,7 +45,11 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
     }
 
     /**
-     * Constructs a {@code ReminderSettingsDAOImpl} with the specified {@code Connection}.
+     * Constructs a {@code ReminderSettingsDAO} with the specified {@code Connection}.
+     * 
+     * <p>Business Logic:</p>
+     * Initializes a new instance of {@code ReminderSettingsDAO} with a {@code Connection} object.
+     * This allows the DAO to perform database operations using the provided connection.
      * 
      * @param connection The {@code Connection} object used for database operations.
      */
@@ -48,6 +59,11 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
 
     /**
      * Adds a new {@code ReminderSettings} object to the data source.
+     * 
+     * <p>Business Logic:</p>
+     * This method inserts a new reminder settings record into the {@code ReminderSettings} table.
+     * It uses the provided {@code ReminderSettings} object to populate the table's columns and retrieves
+     * the generated ID for the new record.
      * 
      * @param reminderSettings The {@code ReminderSettings} object to be added.
      */
@@ -75,6 +91,11 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
     /**
      * Updates an existing {@code ReminderSettings} object in the data source.
      * 
+     * <p>Business Logic:</p>
+     * This method updates an existing reminder settings record in the {@code ReminderSettings} table
+     * with new information provided in the {@code ReminderSettings} object. It uses the reminder ID
+     * to locate the record to be updated.
+     * 
      * @param reminderSettings The {@code ReminderSettings} object with updated information.
      */
     @Override
@@ -96,6 +117,10 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
     /**
      * Deletes a {@code ReminderSettings} object from the data source based on its ID.
      * 
+     * <p>Business Logic:</p>
+     * This method removes a reminder settings record from the {@code ReminderSettings} table using
+     * the specified reminder ID. It ensures that the record with the given ID is deleted.
+     * 
      * @param reminderId The ID of the {@code ReminderSettings} object to be deleted.
      */
     @Override
@@ -111,6 +136,11 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
 
     /**
      * Retrieves a {@code ReminderSettings} object by its ID.
+     * 
+     * <p>Business Logic:</p>
+     * This method fetches a reminder settings record from the {@code ReminderSettings} table using
+     * the specified reminder ID. It returns an {@code Optional} containing the retrieved object or
+     * an empty {@code Optional} if the record is not found.
      * 
      * @param reminderId The ID of the {@code ReminderSettings} object to retrieve.
      * @return An {@code Optional} containing the {@code ReminderSettings} object with the specified ID,
@@ -135,6 +165,10 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
     /**
      * Retrieves all {@code ReminderSettings} objects from the data source.
      * 
+     * <p>Business Logic:</p>
+     * This method retrieves all reminder settings records from the {@code ReminderSettings} table.
+     * It provides a complete list of all reminders currently stored in the database.
+     * 
      * @return A {@code List} of all {@code ReminderSettings} objects.
      */
     @Override
@@ -154,6 +188,11 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
 
     /**
      * Retrieves a {@code ReminderSettings} object by the associated bill's ID.
+     * 
+     * <p>Business Logic:</p>
+     * This method fetches a reminder settings record from the {@code ReminderSettings} table that
+     * is associated with the specified bill ID. It returns an {@code Optional} containing the
+     * retrieved object or an empty {@code Optional} if the record is not found.
      * 
      * @param billId The ID of the bill associated with the {@code ReminderSettings} to retrieve.
      * @return An {@code Optional} containing the {@code ReminderSettings} object associated with the specified bill ID,
@@ -177,6 +216,11 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
 
     /**
      * Maps a {@code ResultSet} row to a {@code ReminderSettings} object.
+     * 
+     * <p>Business Logic:</p>
+     * This method converts a row from the {@code ResultSet} into a {@code ReminderSettings} object.
+     * It retrieves data from the result set and constructs a {@code ReminderSettings} object.
+     * It also uses the {@code BillDAO} to fetch the associated {@code Bill} object based on the bill ID.
      * 
      * @param resultSet The {@code ResultSet} containing the data for the {@code ReminderSettings}.
      * @return A {@code ReminderSettings} object populated with data from the {@code ResultSet}.
