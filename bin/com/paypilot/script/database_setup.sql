@@ -1,36 +1,44 @@
 CREATE TABLE Bills (
-    bill_id VARCHAR2(50) PRIMARY KEY,
-    bill_name VARCHAR2(100),
-    bill_category VARCHAR2(50),
-    due_date DATE,
-    amount NUMBER,
-    reminder_frequency VARCHAR2(20),
-    attachment VARCHAR2(255),
-    notes VARCHAR2(255),
-    is_recurring CHAR(1),
-    payment_status VARCHAR2(20),
-    overdue_days INT,
-    user_id VARCHAR2(50)
+    bill_id NUMBER PRIMARY KEY,  -- int in Java
+    bill_name VARCHAR2(100),     -- String in Java
+    bill_category VARCHAR2(100), -- String in Java
+    due_date DATE,               -- java.util.Date in Java
+    amount NUMBER(10, 2),        -- double in Java
+    reminder_frequency VARCHAR2(50), -- String in Java
+    attachment BLOB,             -- java.io.File (binary data) in Java
+    notes VARCHAR2(4000),        -- String in Java
+    is_recurring VARCHAR2(10),   -- String in Java (Assuming yes/no or true/false)
+    payment_status VARCHAR2(50), -- String in Java
+    overdue_days NUMBER,         -- int in Java
+    user_id NUMBER               -- int in Java
 );
 
-CREATE TABLE ReminderSettings (
-    reminder_id VARCHAR2(50) PRIMARY KEY,
-    reminder_frequency VARCHAR2(20),
-    reminder_start_date DATE,
-    custom_message VARCHAR2(255),
-    notification_preference VARCHAR2(20),
-    bill_id VARCHAR2(50),
-    FOREIGN KEY (bill_id) REFERENCES Bills(bill_id)
-);
+-- Insert Dummy Data
+INSERT INTO Bills (bill_id, bill_name, bill_category, due_date, amount, reminder_frequency, attachment, notes, is_recurring, payment_status, overdue_days, user_id)
+VALUES (1, 'Electricity Bill', 'Utilities', TO_DATE('2023-09-15', 'YYYY-MM-DD'), 120.50, 'Monthly', EMPTY_BLOB(), 'Pay before 20th', 'Yes', 'Pending', 5, 101);
 
 INSERT INTO Bills (bill_id, bill_name, bill_category, due_date, amount, reminder_frequency, attachment, notes, is_recurring, payment_status, overdue_days, user_id)
-VALUES
-('B001', 'Electricity Bill', 'Utility', TO_DATE('2024-07-15', 'YYYY-MM-DD'), 120.50, 'monthly', 'path/to/attachment1.pdf', 'Electricity bill for July', 'Y', 'unpaid', 0, 'U001'),
-('B002', 'Credit Card Payment', 'Credit Card', TO_DATE('2024-07-20', 'YYYY-MM-DD'), 450.00, 'monthly', 'path/to/attachment2.pdf', 'Credit card payment for July', 'Y', 'paid', 5, 'U002'),
-('B003', 'Subscription Fee', 'Subscription', TO_DATE('2024-07-25', 'YYYY-MM-DD'), 75.00, 'monthly', NULL, 'Subscription fee for July', 'N', 'pending', 0, 'U001');
+VALUES (2, 'Water Bill', 'Utilities', TO_DATE('2023-09-20', 'YYYY-MM-DD'), 80.75, 'Monthly', EMPTY_BLOB(), 'Due soon', 'No', 'Paid', 0, 102);
 
-INSERT INTO ReminderSettings (reminder_id, reminder_frequency, reminder_start_date, custom_message, notification_preference, bill_id)
-VALUES
-('R001', 'weekly', TO_DATE('2024-07-01', 'YYYY-MM-DD'), 'Reminder: Electricity Bill due soon', 'email', 'B001'),
-('R002', 'monthly', TO_DATE('2024-07-01', 'YYYY-MM-DD'), 'Reminder: Credit Card Payment due', 'SMS', 'B002'),
-('R003', 'monthly', TO_DATE('2024-07-01', 'YYYY-MM-DD'), 'Reminder: Subscription Fee due', 'push notification', 'B003');
+INSERT INTO Bills (bill_id, bill_name, bill_category, due_date, amount, reminder_frequency, attachment, notes, is_recurring, payment_status, overdue_days, user_id)
+VALUES (3, 'Internet Bill', 'Communications', TO_DATE('2023-09-10', 'YYYY-MM-DD'), 45.99, 'Monthly', EMPTY_BLOB(), 'Autopay activated', 'Yes', 'Pending', 2, 103);
+
+CREATE TABLE ReminderSettings (
+    reminder_id NUMBER PRIMARY KEY,  -- int in Java
+    bill_id NUMBER,                  -- int in Java (Foreign Key to Bills table)
+    reminder_time DATE,              -- java.util.Date in Java
+    message VARCHAR2(500),           -- String in Java
+    frequency VARCHAR2(50),          -- String in Java
+    active VARCHAR2(10),             -- String in Java (Assumed yes/no or true/false)
+    CONSTRAINT fk_bill FOREIGN KEY (bill_id) REFERENCES Bills(bill_id)
+);
+
+-- Insert Dummy Data
+INSERT INTO ReminderSettings (reminder_id, bill_id, reminder_time, message, frequency, active)
+VALUES (1, 1, TO_DATE('2023-09-13 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Electricity Bill Reminder', 'Monthly', 'Yes');
+
+INSERT INTO ReminderSettings (reminder_id, bill_id, reminder_time, message, frequency, active)
+VALUES (2, 2, TO_DATE('2023-09-18 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Water Bill Reminder', 'Monthly', 'Yes');
+
+INSERT INTO ReminderSettings (reminder_id, bill_id, reminder_time, message, frequency, active)
+VALUES (3, 3, TO_DATE('2023-09-08 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Internet Bill Reminder', 'Monthly', 'No');
