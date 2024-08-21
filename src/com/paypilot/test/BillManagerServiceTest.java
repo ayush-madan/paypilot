@@ -1,3 +1,16 @@
+/**
+ * Test class for BillManagerService.
+ * <p>
+ * This class contains unit tests for the BillManagerService class, which manages
+ * various operations related to bills, including adding, retrieving, snoozing, 
+ * and marking bills as paid. Each test ensures that the methods in BillManagerService
+ * perform as expected under different scenarios.
+ * </p>
+ * 
+ * Author: Esha Thakur
+ * Date: 20-08-2024
+ */
+
 package com.paypilot.test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,18 +26,6 @@ import com.paypilot.model.Bill;
 import com.paypilot.repo.BillManagerRepo;
 import com.paypilot.service.BillManagerService;
 
-/**
- * Test class for BillManagerService.
- * <p>
- * This class contains unit tests for the BillManagerService class, which manages
- * various operations related to bills, including adding, retrieving, snoozing, 
- * and marking bills as paid. Each test ensures that the methods in BillManagerService
- * perform as expected under different scenarios.
- * </p>
- * 
- * Author: Esha Thakur
- * Date: 20-08-2024
- */
 public class BillManagerServiceTest {
 
     private BillManagerService billManagerService;
@@ -37,6 +38,13 @@ public class BillManagerServiceTest {
      * stores bills in-memory. It also initializes the BillManagerService with
      * this mock repository. This setup allows us to test the service methods
      * without relying on a real database.
+     * </p>
+     * <p>
+     * External support modules:
+     * <ul>
+     *   <li><b>JUnit 5:</b> Provides annotations like @BeforeEach and @Test for setting up and running unit tests.</li>
+     *   <li><b>Java Collections Framework:</b> Used to manage the list of bills in-memory.</li>
+     * </ul>
      * </p>
      */
     @BeforeEach
@@ -169,7 +177,7 @@ public class BillManagerServiceTest {
      * <p>
      * This test case verifies that overdue bills are correctly retrieved. It ensures
      * that bills marked as overdue are included in the result, based on the implementation
-     * of the `getOverdueBills` method in the mock repository.
+     * of the getOverdueBills method in the mock repository.
      * </p>
      */
     @Test
@@ -193,7 +201,7 @@ public class BillManagerServiceTest {
      * <p>
      * This test case ensures that upcoming bills are correctly retrieved from the repository.
      * It verifies that bills which are not overdue are included in the result based on
-     * the implementation of the `getUpcomingBills` method in the mock repository.
+     * the implementation of the getUpcomingBills method in the mock repository.
      * </p>
      */
     @Test
