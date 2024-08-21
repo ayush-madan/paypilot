@@ -1,3 +1,9 @@
+/**
+ * Implementation of the BillManagerDAOInterface that interacts with the database
+ * to perform operations related to bills, such as retrieving, adding, and fetching bills by ID.
+ * Author: Aryman Srivastava
+ * Date: 20-08-2024
+ */
 package com.paypilot.repo;
 
 import java.io.File;
@@ -8,13 +14,6 @@ import java.util.Date;
 import com.paypilot.model.Bill;
 import com.paypilot.model.BillManagerDAOInterface;
 
-/**
- * Implementation of the BillManagerDAOInterface that interacts with the database
- * to perform operations related to bills, such as retrieving, adding, and fetching bills by ID.
- * Author : Aryman Srivastava
- *  <p>Date: 09-08-2024</p>
- *
- */
 public class BillManagerDAO implements BillManagerDAOInterface {
 
     /**
@@ -35,7 +34,7 @@ public class BillManagerDAO implements BillManagerDAOInterface {
             rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                String id = rs.getString(1);
+                Integer id = rs.getInt(1);
                 String name = rs.getString(2);
                 String category = rs.getString(3);
                 Date dueDate = rs.getDate(4);
@@ -47,7 +46,7 @@ public class BillManagerDAO implements BillManagerDAOInterface {
                 String paymentStatus = rs.getString(10);
                 int overdueDays = rs.getInt(11);
 
-                Bill bill = new Bill(Integer.parseInt(id), name, category, dueDate, amount, reminderFrequency, attachment, notes, isRecurring, paymentStatus, overdueDays, null);
+                Bill bill = new Bill(id, name, category, dueDate, amount, reminderFrequency, attachment, notes, isRecurring, paymentStatus, overdueDays, null);
                 bills.add(bill);
             }
         } catch (Exception e) {
@@ -96,7 +95,7 @@ public class BillManagerDAO implements BillManagerDAOInterface {
             pstmt.setBoolean(8, bill.isRecurring());
             pstmt.setString(9, bill.getPaymentStatus());
             pstmt.setInt(10, bill.getOverdueDays());
-            pstmt.setString(11, null);  // Assuming userId is null for now
+            pstmt.setInt(11, (Integer) null);  // Assuming userId is null for now
 
             // Execute the insert operation
             pstmt.executeUpdate();
