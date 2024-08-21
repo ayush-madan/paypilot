@@ -78,7 +78,7 @@ public class BillManagerDAO implements BillManagerDAOInterface {
     public void addBill(Bill bill) {
         Connection con = null;
         PreparedStatement pstmt = null;
-        String query = "INSERT INTO BILLS (bill_name, bill_category, due_date, amount, reminder_frequency, attachment, notes, is_recurring, payment_status, overdue_days, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO BILLS (bill_id, bill_name, bill_category, due_date, amount, reminder_frequency, attachment, notes, is_recurring, payment_status, overdue_days, user_id) VALUES (bill_id_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             con = DBConnection.getConnection();
@@ -170,3 +170,4 @@ public class BillManagerDAO implements BillManagerDAOInterface {
         return bill;
     }
 }
+
