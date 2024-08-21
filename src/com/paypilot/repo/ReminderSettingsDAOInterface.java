@@ -1,5 +1,5 @@
 /**
- * The {@code ReminderSettingsDAO} interface defines the data access operations
+ * The {@code ReminderSettingsDAOInterface} interface defines the data access operations
  * for {@code ReminderSettings} entities. It provides methods for adding, updating,
  * deleting, and retrieving reminder settings from the data source.
  * 
@@ -12,13 +12,13 @@ import com.paypilot.model.ReminderSettings;
 import java.util.List;
 import java.util.Optional;
 
-
 public interface ReminderSettingsDAOInterface {
 
     /**
      * Adds a new {@code ReminderSettings} object to the data source.
      * 
      * @param reminderSettings The {@code ReminderSettings} object to be added.
+     * @throws IllegalArgumentException if the provided {@code ReminderSettings} object is invalid.
      */
     void addReminder(ReminderSettings reminderSettings);
 
@@ -26,6 +26,7 @@ public interface ReminderSettingsDAOInterface {
      * Updates an existing {@code ReminderSettings} object in the data source.
      * 
      * @param reminderSettings The {@code ReminderSettings} object with updated information.
+     * @throws IllegalArgumentException if the provided {@code ReminderSettings} object is invalid or if the ID is not found.
      */
     void updateReminder(ReminderSettings reminderSettings);
 
@@ -33,6 +34,7 @@ public interface ReminderSettingsDAOInterface {
      * Deletes a {@code ReminderSettings} object from the data source based on its ID.
      * 
      * @param reminderId The ID of the {@code ReminderSettings} object to be deleted.
+     * @throws IllegalArgumentException if the ID is invalid or not found.
      */
     void deleteReminder(int reminderId);
 
@@ -42,6 +44,7 @@ public interface ReminderSettingsDAOInterface {
      * @param reminderId The ID of the {@code ReminderSettings} object to retrieve.
      * @return An {@code Optional} containing the {@code ReminderSettings} object with the specified ID,
      *         or an empty {@code Optional} if not found.
+     * @throws IllegalArgumentException if the ID is invalid.
      */
     Optional<ReminderSettings> getReminderById(int reminderId);
 
@@ -58,6 +61,7 @@ public interface ReminderSettingsDAOInterface {
      * @param billId The ID of the bill associated with the {@code ReminderSettings} to retrieve.
      * @return An {@code Optional} containing the {@code ReminderSettings} object associated with the specified bill ID,
      *         or an empty {@code Optional} if not found.
+     * @throws IllegalArgumentException if the bill ID is invalid.
      */
     Optional<ReminderSettings> getReminderByBillId(int billId);
 }
