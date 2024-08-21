@@ -31,7 +31,7 @@ CREATE TABLE ReminderSettings (
     message VARCHAR2(500),           -- String in Java
     frequency VARCHAR2(50),          -- String in Java
     active VARCHAR2(10),             -- String in Java (Assumed yes/no or true/false)
-    CONSTRAINT fk_bill FOREIGN KEY (bill_id) REFERENCES Bills(bill_id)
+    CONSTRAINT fk_bill FOREIGN KEY (bill_id) REFERENCES Bills(bill_id) ON DELETE CASCADE
 );
 
 -- Insert Dummy Data

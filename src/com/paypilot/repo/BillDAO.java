@@ -43,6 +43,7 @@ public class BillDAO implements BillDAOInterface {
             ps.setBoolean(9, bill.isRecurring());
             ps.setString(10, bill.getPaymentStatus());
             ps.setInt(11, bill.getOverdueDays());
+            ps.setString(12, null);
             // ps.setString(12, bill.getUserId()); // Uncomment and adjust if `Bill` has a `getUserId()` method
 
             ps.executeUpdate();
@@ -77,6 +78,7 @@ public class BillDAO implements BillDAOInterface {
             ps.setBoolean(8, bill.isRecurring());
             ps.setString(9, bill.getPaymentStatus());
             ps.setInt(10, bill.getOverdueDays());
+            ps.setString(11, null);
             // ps.setString(11, bill.getUserId()); // Uncomment and adjust if `Bill` has a `getUserId()` method
             ps.setInt(12, bill.getBillId());
 

@@ -63,7 +63,7 @@ public class BillServiceTest {
      *   <li>reminderSettings: null</li>
      * </ul>
      */
-    @Ignore
+
     @Test
     public void testAddBill() {
         // Create a sample Bill with specific attributes
@@ -103,11 +103,11 @@ public class BillServiceTest {
      *   <li>amount: 100.50</li>
      * </ul>
      */
-    @Ignore
+
     @Test
     public void testUpdateBill() {
         // Create and add a sample Bill with specific attributes
-        Bill bill = new Bill(1, "Electricity Bill", "Utilities", new Date(2024 - 1900, 7, 15), 100.50, "Monthly", null, "Pay before due date", false, "Upcoming", 0, null);
+        Bill bill = new Bill(10, "Electricity Bill", "Utilities", new Date(2024 - 1900, 7, 15), 140.50, "Monthly", null, "Pay before due date", false, "Upcoming", 0, null);
         billService.addBillService(bill); // Ensure the bill is added before updating
         
         // Update the bill with new values
@@ -115,7 +115,7 @@ public class BillServiceTest {
         billService.updateBillService(bill);
 
         // Retrieve and verify the updated bill
-        Bill updatedBill = billService.getBillByIdService(1);
+        Bill updatedBill = billService.getBillByIdService(bill.getBillId());
         assertNotNull("Bill should be updated successfully", updatedBill);
         assertEquals("Amount did not match", 100.50, updatedBill.getAmount(), 0.01); // Tolerance for floating-point comparison
     }
@@ -124,7 +124,7 @@ public class BillServiceTest {
      * Tests the deletion of a bill using the deleteBillService method.
      * Verifies that the bill is successfully deleted and cannot be retrieved.
      */
-    @Ignore
+    
     @Test
     public void testDeleteBill() {
         // Delete a bill using its ID
@@ -155,7 +155,7 @@ public class BillServiceTest {
      *   <li>reminderSettings: null</li>
      * </ul>
      */
-    
+
     @Test
     public void testGetAllBills() {
         // Get the initial count of bills
@@ -164,11 +164,6 @@ public class BillServiceTest {
         // Add a new bill
         Bill newBill = new Bill(6, "Phone", "Utilities", new Date(), 75.0, "Monthly", null, "N/A", false, "Upcoming", 0, null);
         billService.addBillService(newBill);
-        
-        //Print all bills
-        List<Bill> billList = billService.getAllBillsService();
-        for(Bill bl : billList)
-        	System.out.println(bl);
         
         // Get the new count of bills and verify the size has increased by one
         int newSize = billService.getAllBillsService().size();
@@ -179,7 +174,6 @@ public class BillServiceTest {
      * Tests the retrieval of a bill by ID using the getBillByIdService method.
      * Verifies that the bill is found and the bill name matches the expected value.
      */
-    @Ignore
     @Test
     public void testGetBillById() {
         // Retrieve a bill by ID
@@ -187,6 +181,6 @@ public class BillServiceTest {
         
         // Verify the bill was found and check the bill name
         assertNotNull("Bill should be found by ID", bill);
-        assertEquals("Bill name does not match", "Rent", bill.getBillName());
+        assertEquals("Bill name does not match", "Internet Bill", bill.getBillName());
     }
 }
