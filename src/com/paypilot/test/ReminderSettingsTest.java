@@ -2,8 +2,8 @@
  * The ReminderSettingsTest class contains unit tests for the ReminderSettingsService class, 
  * which manages the ReminderSettings objects.
  * 
- * Author: Dimple
- * Date: 09-08-2024
+ * Author: Dimple, Ayush Madan
+ * Date: 20-08-2024
  */
 
 package com.paypilot.test;
@@ -35,8 +35,17 @@ public class ReminderSettingsTest {
     private ReminderSettingsRepository reminderSettingsRepository;
 
     /**
-     * Sets up the test environment before each test.
-     * Initializes the ReminderSettingsRepository and ReminderSettingsService instances.
+     * Configures the test environment prior to each test execution.
+     * 
+     * <p>This method is responsible for setting up the necessary components, including
+     * {@code ReminderSettingsDAO}, {@code ReminderSettingsRepository}, and {@code ReminderSettingsService},
+     * ensuring that the test environment is properly initialized before each test runs.</p>
+     * 
+     * <p><b>External Support Modules:</b></p>
+     * <ul>
+     *   <li><b>JUnit 4:</b> Utilized for annotations such as {@code @Before} and {@code @Test} to manage test setup and execution.</li>
+     *   <li><b>Java Collections Framework:</b> Used internally within the repository and service to manage collections of reminder settings.</li>
+     * </ul>
      */
     @Before
     public void setUp() {
@@ -48,34 +57,40 @@ public class ReminderSettingsTest {
 
     
     /**
-     * Tests the addition of a reminder using the addReminderService method.
-     * Verifies that the reminder is successfully added and can be retrieved.
+     * Validates the addition of a reminder using the {@code addReminderService} method.
      * 
-     * <p>Bill attributes:</p>
+     * <p>This test ensures that a reminder is successfully added to the system and can be retrieved 
+     * based on its ID.</p>
+     * 
+     * <p><b>Bill Attributes:</b></p>
      * <ul>
-     *   <li>billId: 1</li>
-     *   <li>billName: "Electricity Bill"</li>
-     *   <li>category: "Utilities"</li>
-     *   <li>dueDate: new Date() (current date)</li>
-     *   <li>amount: 100.50</li>
-     *   <li>frequency: "Monthly"</li>
-     *   <li>reminder: null</li>
-     *   <li>description: "Pay before due date"</li>
-     *   <li>paid: false</li>
-     *   <li>status: "Upcoming"</li>
-     *   <li>priority: 0</li>
-     *   <li>reminderSettings: null</li>
+     *   <li><b>ID:</b> 1</li>
+     *   <li><b>Name:</b> "Electricity Bill"</li>
+     *   <li><b>Category:</b> "Utilities"</li>
+     *   <li><b>Due Date:</b> Current date ({@code new Date()})</li>
+     *   <li><b>Amount:</b> 100.50</li>
+     *   <li><b>Reminder Frequency:</b> "Monthly"</li>
+     *   <li><b>Attachment:</b> Not set (null)</li>
+     *   <li><b>Notes:</b> "Pay before due date"</li>
+     *   <li><b>Is Recurring:</b> false</li>
+     *   <li><b>Payment Status:</b> "Upcoming"</li>
+     *   <li><b>Priority:</b> 0</li>
+     *   <li><b>Reminder Settings:</b> Not set (null)</li>
      * </ul>
      * 
-     * <p>ReminderSettings attributes:</p>
+     * <p><b>ReminderSettings Attributes:</b></p>
      * <ul>
-     *   <li>reminderId: 1</li>
-     *   <li>reminderFrequency: "Monthly"</li>
-     *   <li>reminderDate: new Date() (current date)</li>
-     *   <li>customMessage: "Reminder Message"</li>
-     *   <li>notificationType: "Email"</li>
-     *   <li>associatedBill: bill - the Bill object associated with this reminder</li>
+     *   <li><b>ID:</b> 4</li>
+     *   <li><b>Reminder Frequency:</b> "Monthly"</li>
+     *   <li><b>Reminder Start Date:</b> Current date ({@code new Date()})</li>
+     *   <li><b>Custom Message:</b> "Reminder Message"</li>
+     *   <li><b>Notification Type:</b> "Email"</li>
+     *   <li><b>Associated Bill:</b> The {@code Bill} object associated with this reminder</li>
      * </ul>
+     * 
+     * <p>The test checks that the reminder is added successfully and can be retrieved by its ID. 
+     * It also verifies that the ID of the retrieved reminder matches the expected value. After verification,
+     * the added reminder is deleted to maintain test isolation.</p>
      */
     @Test
     public void testAddReminder() {
@@ -99,28 +114,34 @@ public class ReminderSettingsTest {
 
     
     /**
-     * Tests the updating of a reminder using the updateReminderService method.
-     * Verifies that the reminder is successfully updated and the new values are correct.
+     * Validates the updating of a reminder using the {@code updateReminderService} method.
      * 
-     * <p>Original ReminderSettings attributes:</p>
+     * <p>This test ensures that a reminder can be successfully updated and that the updated values are 
+     * correctly reflected in the system.</p>
+     * 
+     * <p><b>Original ReminderSettings Attributes:</b></p>
      * <ul>
-     *   <li>reminderId: 1</li>
-     *   <li>reminderFrequency: "Monthly"</li>
-     *   <li>reminderDate: new Date() (current date)</li>
-     *   <li>customMessage: "Reminder Message"</li>
-     *   <li>notificationType: "Email"</li>
-     *   <li>associatedBill: bill - the Bill object associated with this reminder</li>
+     *   <li><b>ID:</b> 4</li>
+     *   <li><b>Reminder Frequency:</b> "Monthly"</li>
+     *   <li><b>Reminder Date:</b> Current date ({@code new Date()})</li>
+     *   <li><b>Custom Message:</b> "Reminder Message"</li>
+     *   <li><b>Notification Type:</b> "Email"</li>
+     *   <li><b>Associated Bill:</b> The {@code Bill} object associated with this reminder</li>
      * </ul>
      * 
-     * <p>Updated ReminderSettings attributes:</p>
+     * <p><b>Updated ReminderSettings Attributes:</b></p>
      * <ul>
-     *   <li>reminderId: 1</li>
-     *   <li>reminderFrequency: "Weekly"</li>
-     *   <li>reminderDate: new Date() (current date)</li>
-     *   <li>customMessage: "Updated Message"</li>
-     *   <li>notificationType: "SMS"</li>
-     *   <li>associatedBill: bill - the same Bill object</li>
+     *   <li><b>ID:</b> 4</li>
+     *   <li><b>Reminder Frequency:</b> "Weekly"</li>
+     *   <li><b>Reminder Date:</b> Current date ({@code new Date()})</li>
+     *   <li><b>Custom Message:</b> "Updated Message"</li>
+     *   <li><b>Notification Type:</b> "SMS"</li>
+     *   <li><b>Associated Bill:</b> The same {@code Bill} object as before</li>
      * </ul>
+     * 
+     * <p>The test updates the reminder settings and verifies that the new values are correctly applied by 
+     * retrieving the updated reminder from the system and checking its attributes. After verification, 
+     * the reminder is deleted to maintain test isolation.</p>
      */
     @Test
     public void testUpdateReminder() {
@@ -147,8 +168,25 @@ public class ReminderSettingsTest {
 
     
     /**
-     * Tests the deletion of a reminder using the deleteReminderService method.
-     * Verifies that the reminder is successfully deleted and cannot be retrieved.
+     * Validates the deletion of a reminder using the {@code deleteReminderService} method.
+     * 
+     * <p>This test ensures that a reminder can be successfully deleted from the system and that it cannot
+     * be retrieved afterward.</p>
+     * 
+     * <p><b>ReminderSettings Attributes for Deletion:</b></p>
+     * <ul>
+     *   <li><b>ID:</b> 4</li>
+     *   <li><b>Reminder Frequency:</b> "Monthly"</li>
+     *   <li><b>Reminder Date:</b> Current date ({@code new Date()})</li>
+     *   <li><b>Custom Message:</b> "Reminder Message"</li>
+     *   <li><b>Notification Type:</b> "Email"</li>
+     *   <li><b>Associated Bill:</b> The {@code Bill} object associated with this reminder</li>
+     * </ul>
+     * 
+     * <p>The test first adds a reminder to the system using the {@code addReminderService} method. It then
+     * deletes the reminder using the {@code deleteReminderService} method and verifies that the reminder 
+     * is no longer present in the system by attempting to retrieve it with {@code getReminderByIdService}. 
+     * The absence of the reminder is confirmed by checking that the retrieval method returns {@code Optional.empty()}.</p>
      */
     @Test
     public void testDeleteReminder() {
@@ -169,8 +207,25 @@ public class ReminderSettingsTest {
 
     
     /**
-     * Tests the retrieval of a reminder by ID using the getReminderByIdService method.
-     * Verifies that the reminder is found and the reminder frequency matches the expected value.
+     * Validates the retrieval of a reminder by ID using the {@code getReminderByIdService} method.
+     * 
+     * <p>This test ensures that a reminder can be successfully retrieved from the system by its ID and that
+     * the retrieved reminder's attributes match the expected values.</p>
+     * 
+     * <p><b>ReminderSettings Attributes for Retrieval:</b></p>
+     * <ul>
+     *   <li><b>ID:</b> 4</li>
+     *   <li><b>Reminder Frequency:</b> "Monthly"</li>
+     *   <li><b>Reminder Date:</b> Current date ({@code new Date()})</li>
+     *   <li><b>Custom Message:</b> "Reminder Message"</li>
+     *   <li><b>Notification Type:</b> "Email"</li>
+     *   <li><b>Associated Bill:</b> The {@code Bill} object associated with this reminder</li>
+     * </ul>
+     * 
+     * <p>The test first creates and adds a reminder with the specified attributes using the {@code addReminderService}
+     * method. It then retrieves the reminder using its ID with {@code getReminderByIdService}. The test verifies that
+     * the retrieved reminder is present and that the reminder frequency matches the expected value. Finally, the
+     * test removes the added reminder to maintain a clean test environment.</p>
      */
     @Test
     public void testGetReminderById() {
@@ -192,62 +247,24 @@ public class ReminderSettingsTest {
 
     
     /**
-     * Tests the retrieval of all reminders using the getAllRemindersService method.
-     * Verifies that the size of the reminder list increases by two after adding two new reminders.
+     * Validates the retrieval of all reminders using the {@code getAllRemindersService} method.
      * 
-     * <p>Bill 1 attributes:</p>
+     * <p>This test ensures that reminders are correctly added and that the total count of reminders
+     * increases by the expected amount after adding a new reminder.</p>
+     * 
+     * <p><b>Sample ReminderSettings Attributes for Addition:</b></p>
      * <ul>
-     *   <li>billId: 1</li>
-     *   <li>billName: "Electricity Bill"</li>
-     *   <li>category: "Utilities"</li>
-     *   <li>dueDate: new Date() (current date)</li>
-     *   <li>amount: 100.50</li>
-     *   <li>frequency: "Monthly"</li>
-     *   <li>reminder: null</li>
-     *   <li>description: "Pay before due date"</li>
-     *   <li>paid: false</li>
-     *   <li>status: "Upcoming"</li>
-     *   <li>priority: 0</li>
-     *   <li>reminderSettings: null</li>
+     *   <li><b>ID:</b> 4</li>
+     *   <li><b>Reminder Frequency:</b> "Monthly"</li>
+     *   <li><b>Reminder Date:</b> Current date ({@code new Date()})</li>
+     *   <li><b>Custom Message:</b> "Reminder Message 1"</li>
+     *   <li><b>Notification Type:</b> "Email"</li>
+     *   <li><b>Associated Bill:</b> {@code Bill} object with ID 1</li>
      * </ul>
      * 
-     * <p>ReminderSettings 1 attributes:</p>
-     * <ul>
-     *   <li>reminderId: 1</li>
-     *   <li>reminderFrequency: "Monthly"</li>
-     *   <li>reminderDate: new Date() (current date)</li>
-     *   <li>customMessage: "Reminder Message 1"</li>
-     *   <li>notificationType: "Email"</li>
-     *   <li>associatedBill: bill1 - the Bill object associated with this reminder</li>
-     * </ul>
-     * 
-     * <p>Bill 2 attributes:</p>
-     * <ul>
-     *   <li>billId: 2</li>
-     *   <li>billName: "Internet Bill"</li>
-     *   <li>category: "Internet"</li>
-     *   <li>dueDate: new Date() (current date)</li>
-     *   <li>amount: 60.00</li>
-     *   <li>frequency: "Monthly"</li>
-     *   <li>reminder: null</li>
-     *   <li>description: "Reminder for Internet Bill"</li>
-     *   <li>paid: true</li>
-     *   <li>status: "Upcoming"</li>
-     *   <li>priority: 0</li>
-     *   <li>reminderSettings: null</li>
-     * </ul>
-     * 
-     * <p>ReminderSettings 2 attributes:</p>
-     * <ul>
-     *   <li>reminderId: 2</li>
-     *   <li>reminderFrequency: "Weekly"</li>
-     *   <li>reminderDate: new Date() (current date)</li>
-     *   <li>customMessage: "Reminder Message 2"</li>
-     *   <li>notificationType: "SMS"</li>
-     *   <li>associatedBill: bill2 - the Bill object associated with this reminder</li>
-     * </ul>
+     * <p>The test ensures that the reminder was successfully added and that the reminder list accurately reflects
+     * the total number of reminders. Finally, the test removes the added reminder to maintain a clean test environment.</p>
      */
-    
     @Test
     public void testGetAllReminders() {
     	int oldSize = reminderSettingsService.getAllRemindersService().size();

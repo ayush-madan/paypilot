@@ -2,8 +2,8 @@
  *  The BillServiceTest class contains unit tests for the BillService class, 
  *  which provides functionalities for managing bills.
  *  
- *  Author: Dimple
- *  Date: 09-08-2024
+ *  Author: Dimple, Ayush Madan
+ *  Date: 20-08-2024
  */
 
 package com.paypilot.test;
@@ -32,8 +32,18 @@ public class BillServiceTest {
     private BillDAO billDAO;
 
     /**
-     * Sets up the test environment before each test.
-     * Initializes the BillRepository and BillService instances.
+     * Prepares the test environment for validating bill-related operations.
+     * 
+     * <p>This method initializes the {@code BillDAO}, {@code BillRepository}, and {@code BillService}
+     * instances to ensure that all components are properly set up before each test execution.</p>
+     * 
+     * <p>The method is annotated with {@code @Before}, indicating that it is executed prior to each test case.</p>
+     * 
+     * <p><b>External support modules:</b></p>
+     * <ul>
+     *   <li>JUnit 4.x.x: Provides annotations like {@code @Before} and {@code @Test} for setting up and running unit tests.</li>
+     *   <li>Java Collections Framework: Required for managing in-memory collections during testing.</li>
+     * </ul>
      */
     @Before
     public void setUp() {
@@ -43,27 +53,31 @@ public class BillServiceTest {
         billService = new BillService(billRepository);
     }
 
+    
     /**
-     * Tests the addition of a bill using the addBillService method.
-     * Verifies that the bill is successfully added and can be retrieved.
+     * Validates the addition of a new bill to the system using the {@code addBillService} method.
      * 
-     * <p>Bill attributes:</p>
+     * <p>This test ensures that a bill with specific attributes is successfully added and can be
+     * retrieved from the system. The bill is then deleted to maintain test data integrity.</p>
+     * 
+     * <p><b>Tested Bill Attributes:</b></p>
      * <ul>
-     *   <li>billId: 5</li>
-     *   <li>billName: "Water"</li>
-     *   <li>category: "Utilities"</li>
-     *   <li>dueDate: new Date() (current date)</li>
-     *   <li>amount: 45.0</li>
-     *   <li>frequency: "Monthly"</li>
-     *   <li>reminder: null</li>
-     *   <li>description: "N/A"</li>
-     *   <li>paid: true</li>
-     *   <li>status: "Upcoming"</li>
-     *   <li>priority: 0</li>
-     *   <li>reminderSettings: null</li>
+     *   <li><b>ID:</b> 5</li>
+     *   <li><b>Name:</b> "Water"</li>
+     *   <li><b>Category:</b> "Utilities"</li>
+     *   <li><b>Due Date:</b> Current date ({@code new Date()})</li>
+     *   <li><b>Amount:</b> 45.0</li>
+     *   <li><b>Reminder Frequency:</b> "Monthly"</li>
+     *   <li><b>Attachment:</b> Not set (null)</li>
+     *   <li><b>Notes:</b> "N/A"</li>
+     *   <li><b>Is Recurring:</b> true</li>
+     *   <li><b>Payment Status:</b> "Upcoming"</li>
+     *   <li><b>Overdue Days:</b> 0</li>
+     *   <li><b>Reminder Settings:</b> Not set (null)</li>
      * </ul>
+     * 
+     * <p>After verifying the addition, the bill is removed to ensure the test environment remains clean.</p>
      */
-
     @Test
     public void testAddBill() {
         // Create a sample Bill with specific attributes
@@ -81,32 +95,36 @@ public class BillServiceTest {
         billService.deleteBillService(bill.getBillId());
     }
 
+    
     /**
-     * Tests the updating of a bill using the updateBillService method.
-     * Verifies that the bill is successfully updated and the new values are correct.
+     * Validates the updating of an existing bill using the {@code updateBillService} method.
      * 
-     * <p>Original Bill attributes:</p>
+     * <p>This test ensures that a bill's attributes can be successfully updated and that the updated values
+     * are correctly reflected in the system. The bill is then deleted to maintain test data integrity.</p>
+     * 
+     * <p><b>Original Bill Attributes:</b></p>
      * <ul>
-     *   <li>billId: 1</li>
-     *   <li>billName: "Electricity Bill"</li>
-     *   <li>category: "Utilities"</li>
-     *   <li>dueDate: new Date(2024 - 1900, 7, 15) (specific date)</li>
-     *   <li>amount: 100.50</li>
-     *   <li>frequency: "Monthly"</li>
-     *   <li>reminder: null</li>
-     *   <li>description: "Pay before due date"</li>
-     *   <li>paid: false</li>
-     *   <li>status: "Upcoming"</li>
-     *   <li>priority: 0</li>
-     *   <li>reminderSettings: null</li>
+     *   <li><b>ID:</b> 10</li>
+     *   <li><b>Name:</b> "Electricity Bill"</li>
+     *   <li><b>Category:</b> "Utilities"</li>
+     *   <li><b>Due Date:</b> August 15, 2024 ({@code new Date(2024 - 1900, 7, 15)})</li>
+     *   <li><b>Amount:</b> 140.50</li>
+     *   <li><b>Reminder Frequency:</b> "Monthly"</li>
+     *   <li><b>Attachment:</b> Not set (null)</li>
+     *   <li><b>Notes:</b> "Pay before due date"</li>
+     *   <li><b>Is Recurring:</b> false</li>
+     *   <li><b>Payment Status:</b> "Upcoming"</li>
+     *   <li><b>Overdue Days:</b> 0</li>
+     *   <li><b>Reminder Settings:</b> Not set (null)</li>
      * </ul>
      * 
-     * <p>Updated Bill attributes:</p>
+     * <p><b>Updated Bill Attribute:</b></p>
      * <ul>
-     *   <li>amount: 100.50</li>
+     *   <li><b>Amount:</b> 100.50</li>
      * </ul>
+     * 
+     * <p>After verifying the update, the bill is removed to ensure the test environment remains clean.</p>
      */
-
     @Test
     public void testUpdateBill() {
         // Create and add a sample Bill with specific attributes
@@ -126,42 +144,72 @@ public class BillServiceTest {
         billService.deleteBillService(bill.getBillId());
     }
 
-    /**
-     * Tests the deletion of a bill using the deleteBillService method.
-     * Verifies that the bill is successfully deleted and cannot be retrieved.
-     */
     
+    /**
+     * Validates the deletion of a bill using the {@code deleteBillService} method.
+     * 
+     * <p>This test ensures that a bill is successfully added, deleted, and confirms that the deleted bill
+     * cannot be retrieved afterward.</p>
+     * 
+     * <p><b>Bill Attributes for Addition and Deletion:</b></p>
+     * <ul>
+     *   <li><b>ID:</b> 5</li>
+     *   <li><b>Name:</b> "Water"</li>
+     *   <li><b>Category:</b> "Utilities"</li>
+     *   <li><b>Due Date:</b> Current date ({@code new Date()})</li>
+     *   <li><b>Amount:</b> 45.0</li>
+     *   <li><b>Reminder Frequency:</b> "Monthly"</li>
+     *   <li><b>Attachment:</b> Not set (null)</li>
+     *   <li><b>Notes:</b> "N/A"</li>
+     *   <li><b>Is Recurring:</b> true</li>
+     *   <li><b>Payment Status:</b> "Upcoming"</li>
+     *   <li><b>Overdue Days:</b> 0</li>
+     *   <li><b>Reminder Settings:</b> Not set (null)</li>
+     * </ul>
+     * 
+     * <p>After the deletion, an attempt to retrieve the bill should return {@code null}.</p>
+     */
     @Test
     public void testDeleteBill() {
+    	// Create a sample Bill with specific attributes
+        Bill bill = new Bill(5, "Water", "Utilities", new Date(), 45.0, "Monthly", null, "N/A", true, "Upcoming", 0, null);
+        
+        // Add the bill using the service
+        billService.addBillService(bill);
+        
         // Delete a bill using its ID
-        billService.deleteBillService(2);
+        billService.deleteBillService(bill.getBillId());
 
         // Verify the bill was deleted
         Bill deletedBill = billService.getBillByIdService(2);
         assertNull("Bill should be deleted", deletedBill);
     }
 
+    
     /**
-     * Tests the retrieval of all bills using the getAllBillsService method.
-     * Verifies that the size of the bill list increases by one after adding a new bill.
+     * Validates the retrieval of all bills using the {@code getAllBillsService} method.
      * 
-     * <p>New Bill attributes:</p>
+     * <p>This test ensures that the total count of bills increases by one after adding a new bill to the system,
+     * and confirms that the new bill can be retrieved along with the existing ones.</p>
+     * 
+     * <p><b>New Bill Attributes:</b></p>
      * <ul>
-     *   <li>billId: 6</li>
-     *   <li>billName: "Phone"</li>
-     *   <li>category: "Utilities"</li>
-     *   <li>dueDate: new Date() (current date)</li>
-     *   <li>amount: 75.0</li>
-     *   <li>frequency: "Monthly"</li>
-     *   <li>reminder: null</li>
-     *   <li>description: "N/A"</li>
-     *   <li>paid: false</li>
-     *   <li>status: "Upcoming"</li>
-     *   <li>priority: 0</li>
-     *   <li>reminderSettings: null</li>
+     *   <li><b>ID:</b> 6</li>
+     *   <li><b>Name:</b> "Phone"</li>
+     *   <li><b>Category:</b> "Utilities"</li>
+     *   <li><b>Due Date:</b> Current date ({@code new Date()})</li>
+     *   <li><b>Amount:</b> 75.0</li>
+     *   <li><b>Reminder Frequency:</b> "Monthly"</li>
+     *   <li><b>Attachment:</b> Not set (null)</li>
+     *   <li><b>Notes:</b> "N/A"</li>
+     *   <li><b>Is Recurring:</b> false</li>
+     *   <li><b>Payment Status:</b> "Upcoming"</li>
+     *   <li><b>Overdue Days:</b> 0</li>
+     *   <li><b>Reminder Settings:</b> Not set (null)</li>
      * </ul>
+     * 
+     * <p>After adding the new bill, the test verifies that the size of the bill list has increased by one.</p>
      */
-
     @Test
     public void testGetAllBills() {
         // Get the initial count of bills
@@ -179,9 +227,14 @@ public class BillServiceTest {
         billService.deleteBillService(newBill.getBillId());
     }
 
+    
     /**
-     * Tests the retrieval of a bill by ID using the getBillByIdService method.
-     * Verifies that the bill is found and the bill name matches the expected value.
+     * Validates the retrieval of a bill by its ID using the {@code getBillByIdService} method.
+     * 
+     * <p>This test ensures that a bill can be accurately retrieved by its ID and verifies that the 
+     * retrieved bill's name matches the expected value.</p>
+     * 
+     * <p>The test checks that the bill is found and confirms that the bill's name matches "Internet Bill".</p>
      */
     @Test
     public void testGetBillById() {
