@@ -69,21 +69,18 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
      */
     @Override
     public void addReminder(ReminderSettings reminderSettings) {
-        String sql = "INSERT INTO ReminderSettings (reminderFrequency, reminderStartDate, customMessage, notificationPref, billId) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        String sql = "INSERT INTO ReminderSettings (frequency, reminder_time, message, active, bill_id, reminder_id) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+        	this.connection = DBConnection.getConnection();
+        	PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, reminderSettings.getReminderFrequency());
             statement.setDate(2, new java.sql.Date(reminderSettings.getReminderStartDate().getTime()));
             statement.setString(3, reminderSettings.getCustomMessage());
             statement.setString(4, reminderSettings.getNotificationPref());
             statement.setInt(5, reminderSettings.getBill().getBillId());
+            statement.setInt(6, reminderSettings.getReminderId());
             statement.executeUpdate();
-
-            // Retrieve the generated key for the new reminder
-            ResultSet generatedKeys = statement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                reminderSettings.setReminderId(generatedKeys.getInt(1));
-            }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -100,8 +97,10 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
      */
     @Override
     public void updateReminder(ReminderSettings reminderSettings) {
-        String sql = "UPDATE ReminderSettings SET reminderFrequency = ?, reminderStartDate = ?, customMessage = ?, notificationPref = ?, billId = ? WHERE reminderId = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        String sql = "UPDATE ReminderSettings SET frequency = ?, reminder_time = ?, message = ?, active = ?, bill_id = ? WHERE reminder_id = ?";
+        try {
+        	this.connection = DBConnection.getConnection();
+        	PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, reminderSettings.getReminderFrequency());
             statement.setDate(2, new java.sql.Date(reminderSettings.getReminderStartDate().getTime()));
             statement.setString(3, reminderSettings.getCustomMessage());
@@ -109,7 +108,7 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
             statement.setInt(5, reminderSettings.getBill().getBillId());
             statement.setInt(6, reminderSettings.getReminderId());
             statement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -125,11 +124,13 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
      */
     @Override
     public void deleteReminder(int reminderId) {
-        String sql = "DELETE FROM ReminderSettings WHERE reminderId = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        String sql = "DELETE FROM ReminderSettings WHERE reminder_id = ?";
+        try {
+        	this.connection = DBConnection.getConnection();
+        	PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, reminderId);
             statement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -148,15 +149,17 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
      */
     @Override
     public Optional<ReminderSettings> getReminderById(int reminderId) {
-        String sql = "SELECT * FROM ReminderSettings WHERE reminderId = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        String sql = "SELECT * FROM ReminderSettings WHERE reminder_id = ?";
+        try {
+        	this.connection = DBConnection.getConnection();
+        	PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, reminderId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 ReminderSettings reminderSettings = mapRowToReminderSettings(resultSet);
                 return Optional.of(reminderSettings);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return Optional.empty();
@@ -175,12 +178,14 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
     public List<ReminderSettings> getAllReminders() {
         List<ReminderSettings> reminders = new ArrayList<>();
         String sql = "SELECT * FROM ReminderSettings";
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
+        try {
+        	this.connection = DBConnection.getConnection();
+    		Statement statement = connection.createStatement();
+        	ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 reminders.add(mapRowToReminderSettings(resultSet));
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return reminders;
@@ -200,15 +205,17 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
      */
     @Override
     public Optional<ReminderSettings> getReminderByBillId(int billId) {
-        String sql = "SELECT * FROM ReminderSettings WHERE billId = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        String sql = "SELECT * FROM ReminderSettings WHERE bill_id = ?";
+        try  {
+        	this.connection = DBConnection.getConnection();
+        	PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, billId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 ReminderSettings reminderSettings = mapRowToReminderSettings(resultSet);
                 return Optional.of(reminderSettings);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return Optional.empty();
@@ -227,15 +234,17 @@ public class ReminderSettingsDAO implements ReminderSettingsDAOInterface {
      * @throws SQLException If an SQL error occurs while mapping the data.
      */
     private ReminderSettings mapRowToReminderSettings(ResultSet resultSet) throws SQLException {
-        int reminderId = resultSet.getInt("reminderId");
-        String reminderFrequency = resultSet.getString("reminderFrequency");
-        Date reminderStartDate = resultSet.getDate("reminderStartDate");
-        String customMessage = resultSet.getString("customMessage");
-        String notificationPref = resultSet.getString("notificationPref");
-        int billId = resultSet.getInt("billId");
+        int reminderId = resultSet.getInt("reminder_id");
+        String reminderFrequency = resultSet.getString("frequency");
+        Date reminderStartDate = resultSet.getDate("reminder_time");
+        String customMessage = resultSet.getString("message");
+        String notificationPref = resultSet.getString("frequency");
+        int billId = resultSet.getInt("bill_id");
+        System.out.println(billId);
 
         // Use the instance of BillDAO to get the Bill object
-        Bill bill = billDAO.getBillById(billId);
+        this.billDAO = new BillDAO();
+        Bill bill = this.billDAO.getBillById(billId);
 
         return new ReminderSettings(reminderId, reminderFrequency, reminderStartDate, customMessage, notificationPref, bill);
     }

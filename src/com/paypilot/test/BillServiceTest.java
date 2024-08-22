@@ -75,7 +75,10 @@ public class BillServiceTest {
         // Retrieve the bill to verify it was added
         Bill retrievedBill = billService.getBillByIdService(5);
         assertNotNull("Bill should be added successfully", retrievedBill);
-        assertEquals("Bill ID does not match", 5, retrievedBill.getBillId());
+        assertEquals("Bill ID does not match", bill.getBillId(), retrievedBill.getBillId());
+        
+        // Delete the added bill using its ID
+        billService.deleteBillService(bill.getBillId());
     }
 
     /**
@@ -118,6 +121,9 @@ public class BillServiceTest {
         Bill updatedBill = billService.getBillByIdService(bill.getBillId());
         assertNotNull("Bill should be updated successfully", updatedBill);
         assertEquals("Amount did not match", 100.50, updatedBill.getAmount(), 0.01); // Tolerance for floating-point comparison
+        
+        // Delete the added bill using its ID
+        billService.deleteBillService(bill.getBillId());
     }
 
     /**
@@ -168,6 +174,9 @@ public class BillServiceTest {
         // Get the new count of bills and verify the size has increased by one
         int newSize = billService.getAllBillsService().size();
         assertEquals("Size of bill list should increase by one", initialSize + 1, newSize);
+        
+        // Delete the added bill using its ID
+        billService.deleteBillService(newBill.getBillId());
     }
 
     /**
