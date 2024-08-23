@@ -181,7 +181,7 @@ public class BillServiceTest {
         billService.deleteBillService(bill.getBillId());
 
         // Verify the bill was deleted
-        Bill deletedBill = billService.getBillByIdService(2);
+        Bill deletedBill = billService.getBillByIdService(5);
         assertNull("Bill should be deleted", deletedBill);
     }
 

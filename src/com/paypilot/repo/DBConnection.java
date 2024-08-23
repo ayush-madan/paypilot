@@ -34,7 +34,7 @@ public class DBConnection {
 	public static Connection getConnection() throws ClassNotFoundException, SQLException {    
 		
         // Load the resource bundle to retrieve the database configuration details
-        ResourceBundle rb = ResourceBundle.getBundle("oracle");
+        ResourceBundle rb = ResourceBundle.getBundle("com.paypilot.repo.oracle");
 		
         // Retrieve the database URL, username, and password from the properties file
 	String url = rb.getString("db.url");
